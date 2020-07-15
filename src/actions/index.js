@@ -1,33 +1,24 @@
 // Redux action creators
-
-import * as actionTypes from '../actionTypes'
+import * as actionTypes from '../actionTypes';
 
 // Actions for postsReducer
-export const fetchPosts = (subreddit, data=null, error=null) => {
-    // use middleware here i.e. dispatch actionCreators
+export const fetchPostsRequest = () => {
     return ({
-        type: actionTypes.FETCH_POSTS_REQUEST,
-        subreddit: subreddit,
-        data: null,
-        error: null
-    });
-};
-
-export const fetchPostsSuccess = (subreddit, data, error=null) => {
-    return ({
-        type: actionTypes.FETCH_POSTS_SUCCESS,
-        subreddit: subreddit,
-        data: data,
-        error: null
+        type: actionTypes.FETCH_POSTS_REQUEST
     })
 };
 
-export const fetchPostsError = (subreddit, data=null, error) => {
+export const fetchPostsSuccess = (data) => {
+    return ({
+        type: actionTypes.FETCH_POSTS_SUCCESS,
+        data
+    })
+};
+
+export const fetchPostsFailure = (error) => {
     return ({
         type: actionTypes.FETCH_POSTS_FAILURE,
-        subreddit: subreddit,
-        data: null,
-        error: error
+        error
     })
 };
 
