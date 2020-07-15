@@ -5,11 +5,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import Subreddit from '../../components/Subreddit';
 
 function SubredditContainer(props) {
-    // dispatch fetch Post req here
+
+    // comment url is https://www.reddit.com/r/news/comments/hr7vza/.json
     // const url = "https://www.reddit.com/r/news/top/.json?";
     // const params = "limit=10";
     const url = `https://www.reddit.com/r/${useSelector(state => state.subreddit)}/${useSelector(state => state.filter)}/.json?`;
-    const params = "limit=10";
+    const params = "limit=30";
     const dispatch = useDispatch();
     dispatch(fetchPosts(url, params));
     return (
@@ -22,7 +23,7 @@ function SubredditContainer(props) {
 const mapStateToProps = function(state) {
     return {
         data: state.data,
-        isLogged: state.logged
+        logged: state.logged
     }
 }
 
