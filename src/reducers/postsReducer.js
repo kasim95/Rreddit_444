@@ -1,20 +1,20 @@
-import { FETCH_POSTS, FETCH_POSTS_SUCCESS, FETCH_POSTS_ERROR } from '../actions'
+import * as actionTypes from '../actionTypes'
 
 const postsReducer = (state={data: {}}, action) => {
     switch (action.type) {
-        case FETCH_POSTS:
+        case actionTypes.FETCH_POSTS_REQUEST:
             return {
                 data: {},
                 error: null,
                 isLoading: true
             }
-        case FETCH_POSTS_SUCCESS:
+        case actionTypes.FETCH_POSTS_SUCCESS:
             return {
                 data: action.data,
                 error: null,
                 isLoading: false
             }
-        case FETCH_POSTS_ERROR:
+        case actionTypes.FETCH_POSTS_FAILURE:
             return {
                 data: {},
                 error: action.error,
