@@ -1,6 +1,6 @@
 export const parseJson = responseJson => {
     if (responseJson) {
-        if (responseJson.data.length < 2) {
+        if (responseJson.data.data.children) {
             console.log("Post API detected for parseJson");
             let children = responseJson.data.data.children;
             return extractPostFromChildren(children);

@@ -16,7 +16,7 @@ function App() {
     return (
         <div className="App">
             <Header />
-            <div name='state_values_'>
+                <div name='state_values_'>
                 <h3> Logged: {logged ? "Yes" : "No"}</h3>
                 <h3> All posts:</h3>
                 <button onClick={() => dispatch(logIn())} >Log In</button>    

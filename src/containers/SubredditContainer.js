@@ -54,9 +54,7 @@ function SubredditContainer(props) {
     //     // end test
 
     return (
-        props.logged ?
-         <div><h3>Subreddit posts loaded</h3><Subreddit /></div> 
-         : <h3>Subreddit Data not loaded</h3>
+        props.logged ? <div><h3>Subreddit posts loaded</h3> <SubredditContainer /></div> : <h3>Subreddit Data not loaded</h3>
     )
 }
 
