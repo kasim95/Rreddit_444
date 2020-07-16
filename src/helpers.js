@@ -1,15 +1,19 @@
 export const parseJson = responseJson => {
     if (responseJson) {
-        if (responseJson.data) {
+        if (responseJson.data.length < 2) {
             console.log("Post API detected for parseJson");
             let children = responseJson.data.data.children;
             return extractPostFromChildren(children);
         }
         else {
             console.log("Comment API detected for parseJson");
-            let children = responseJson[1].data.children;
+            let children = responseJson.data[1].data.children;
             console.log(children);
+            return extractCommentsFromJson(children);
         }
+    }
+    else {
+        console.log("No Json object argument in parseJson");
     }
 }
 
@@ -47,6 +51,8 @@ export const extractPostFromChildren = responseChildren => {
 
 
 export const extractCommentsFromJson = responseChildren => {
+    console.log("i am inside extractComments")
+    console.log(responseChildren);
     let result = [];
     responseChildren.forEach(element => {
         let comment = {
@@ -58,10 +64,14 @@ export const extractCommentsFromJson = responseChildren => {
             "reddit_id": element.data.id,
             "replies": []
         };
-        if (element.data.replies.data.children.length >= 0) {
+        if (element.data.replies !== "" && element.data.replies.data.children.length >= 0) {
             comment.replies = extractCommentsFromJson(element.data.replies.data.children)
         }
+        else {
+            console.log("No replies found", result);
+        }
         result.push(comment);
+        console.log(result);
     });
     return result;
 };

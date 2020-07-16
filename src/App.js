@@ -15,15 +15,19 @@ function App() {
     
     return (
         <div className="App">
-            <div className="App-header">
-                <h1>Rreddit 444</h1>
-            </div>
             <Header />
             <div name='state_values_'>
                 <h3> Logged: {logged ? "Yes" : "No"}</h3>
                 <h3> All posts:</h3>
                 <button onClick={() => dispatch(logIn())} >Log In</button>    
                 <SubredditContainer />
+                <h1>sadasdasdsad</h1>
+                <h1>sadasdasdsad</h1>
+                <h1>sadasdasdsad</h1>
+                <h1>sadasdasdsad</h1>
+                <h1>sadasdasdsad</h1>
+                <h1>sadasdasdsad</h1>
+                <h1>sadasdasdsad</h1>
             </div>
             <Footer />
         </div>
