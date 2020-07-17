@@ -24,7 +24,7 @@ export const extractPostFromChildren = responseChildren => {
         let result = responseChildren.map(child => {
             return ({
                 "author": child.data.author,
-                "created": child.data.created_utc,
+                "created_utc": child.data.created_utc,
                 "id": counter++,
                 "name": child.data.name,
                 "num_comments": child.data.num_comments,

@@ -1,37 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
-import { useSelector, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { logIn } from './actions';
 
 import SubredditContainer from './containers/SubredditContainer';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
-// div with name state_values_ is added to check state values during dev
-// Remove the whole div later
-function App() {
-    const logged = useSelector(state => state.logged);
-    const dispatch = useDispatch();
+import { Button } from 'react-bootstrap';
+
+function App(props) {
+    // const logged = useSelector(state => state.logged);
+    // const dispatch = useDispatch();
     
     return (
         <div className="App">
             <Header />
-                <div name='state_values_'>
-                <h3> Logged: {logged ? "Yes" : "No"}</h3>
-                <h3> All posts:</h3>
-                <button onClick={() => dispatch(logIn())} >Log In</button>    
-                <SubredditContainer />
-                <h1>sadasdasdsad</h1>
-                <h1>sadasdasdsad</h1>
-                <h1>sadasdasdsad</h1>
-                <h1>sadasdasdsad</h1>
-                <h1>sadasdasdsad</h1>
-                <h1>sadasdasdsad</h1>
-                <h1>sadasdasdsad</h1>
-            </div>
+            {/*<button onClick={() => dispatch(logIn())} >Log In</button>*/}
+            <Button className="button button-info m-3" onClick={props.logIn}>Log In</Button>
+            <SubredditContainer />
             <Footer />
         </div>
     );
 }
 
-export default App;
+const mapStateToProps = state => ({
+        logged: state.logged,
+        subreddit: state.subreddit,
+        filter: state.filter
+    })
+
+const mapDispatchToProps = dispatch => ({ logIn: () => dispatch(logIn()) })
+
+// export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
