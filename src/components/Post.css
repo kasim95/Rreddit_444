@@ -1,0 +1,93 @@
+.postDiv {
+    border: 1px dotted #000000;
+    box-shadow: 5px 5px 3px gray;
+}
+
+.postheaderDiv {
+    font-size: 12px;
+    border-bottom: 1px solid #000000;
+}
+
+a.postauthor {
+    text-decoration: none;
+    color:  #FF4500;
+}
+
+a.postauthor:hover {
+    text-decoration: underline;
+    color: #FF5700
+}
+
+a.postauthor:active {
+    text-decoration: underline;
+    color: gray;
+}
+
+a.postredditicon {
+    color:#FF4500;
+    background-color: white;
+    border-radius: 25px;
+    border: 1px solid #ffffff;
+    text-decoration: none;
+}
+
+a.postredditicon:hover {
+    color:#FF5700;
+    background-color: white;
+    border-radius: 25px;
+    border: 1px solid #ffffff;
+    text-decoration: none;
+}
+
+a.postredditicon:active {
+    color:gray;
+    background-color: white;
+    border-radius: 25px;
+    border: 1px solid #ffffff;
+    text-decoration: none;
+}
+
+a.posturl {
+    font-size: 10px;
+    display: block;
+    text-decoration: none;
+    color: lightblue;
+}
+
+a.posturl:hover {
+    text-decoration: underline;
+}
+
+a.posturl:active {
+    color: gray;
+}
+
+a.posturl:visited {
+    color: lightskyblue;
+}
+
+.postfooterDiv {
+    font-size: 15px;
+    border-top: 0.5px solid #000000;
+}
+
+.postvoteicon {
+    color: #FF5700;
+}
+
+a.postcommenticon {
+    color: #FF4500;
+    float: right;
+    text-decoration: none;
+}
+
+a.postcommenticon:hover {
+    color: #FF5700;
+    text-decoration: none;
+}
+
+a.postcommenticon:active {
+    color: gray;
+    text-decoration: none;
+}
+

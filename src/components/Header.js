@@ -7,7 +7,7 @@ export class Header extends React.Component {
     render() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-                <Navbar.Brand href="#home">
+                <Navbar.Brand href="#home" className="logo">
                     <img 
                             alt="Rreddit 444"
                             src={require("./logo.png")} 

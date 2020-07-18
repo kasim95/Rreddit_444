@@ -22,7 +22,10 @@ function SubredditContainer(props) {
     //  the 2nd argument to useEffect contains the dependancies so it will be called whenever any value in it changes
     //useEffect(() => props.fetchPosts(url+params), [])
     // useEffect(() => props.fetchPosts(url+params), [props.fetchPosts])
+
     const fetchPostsDispatch = fullUrl => props.fetchPosts(fullUrl);
+    // disable useEffect missing dependancies warning
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => fetchPostsDispatch(fullUrl), [])
 
     // Hardcoded comment url

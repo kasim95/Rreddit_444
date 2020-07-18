@@ -1,11 +1,19 @@
-a:active {
-    color: white;
+a.footer:active {
+    color: silver;
+    text-decoration: none;
 }
 
-a:visited {
-    color: white;
+a.footer:visited {
+    color: lightblue;
+    text-decoration: underline;
 }
 
-a:hover {
-    color:  red;
+a.footer:hover {
+    color: lightcoral;
+    text-decoration: none;
+}
+
+a.footer {
+    color: silver;
+    text-decoration: none;
 }
