@@ -1,5 +1,6 @@
 import loggedReducer from './loggedReducer'
 import postsReducer from './postsReducer'
+import commentsReducer from './commentsReducer'
 import subredditReducer from './subredditReducer'
 import filterReducer from './filterReducer'
 import {combineReducers} from 'redux'
@@ -10,7 +11,8 @@ const rootReducer = combineReducers({
     logged: loggedReducer,
     posts: postsReducer,
     subreddit: subredditReducer,
-    filter: filterReducer
+    filter: filterReducer,
+    comments: commentsReducer
 });
 
 export default rootReducer;

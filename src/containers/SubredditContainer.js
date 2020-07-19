@@ -1,17 +1,21 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { fetchPosts } from '../middleware';
-import Post from '../components/Post';
+import PostContainer from '../containers/PostContainer';
 // import axios from 'axios';
 // import { parseJson } from '../helpers';
 
 // todo: once Comment fetch is completed and render is completed for Posts and Comments, remove subreddit name from store to prevent false API calls during store/state changes
+// another fix: call all dispatches for fetch using useEffect and exclude subreddit in dependancy
 
 function SubredditContainer(props) {
-    //  one good thought is to also move the fetchPosts function here cause this is the only container that will ever call it
+    //  one good change  is to also move the fetchPosts function here cause this is the only container that will ever call it
     // this also makes it easier to remove subreddit from store which means no repetitive fetch requests for every state change
-
-
+    
+    // Hardcoded post url and params (delete later)
+    // const url = "https://www.reddit.com/r/news/top/.json?";
+    // const params = "limit=10";
+    
     //const url = `https://www.reddit.com/r/${useSelector(state => state.subreddit)}/${useSelector(state => state.filter)}/.json?`;
     const url = `https://www.reddit.com/r/${props.subreddit}/${props.filter}/.json?`;
     const params = "limit=30";
@@ -28,43 +32,16 @@ function SubredditContainer(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => fetchPostsDispatch(fullUrl), [])
 
-    // Hardcoded comment url
-    // comment url is https://www.reddit.com/r/news/comments/hr7vza/.json?
-    // Hardcoded post url and params (delete later)
-    // const url = "https://www.reddit.com/r/news/top/.json?";
-    // const params = "limit=10";
-    //
-    // todo: work on comment fetch and presentation at the end
-    // test for Comments API (delete later)
-    // const comment_url = "https://www.reddit.com/r/news/comments/hr7vza/.json?";
-    // let comment_response = axios.get(comment_url+"")
-    //     .then(response => {
-    //         if (response.status === 200) {
-    //             console.log("Success: Reddit Comment API");
-    //             console.log(response);
-
-    //             // parse Json to get posts as an array and dispatch Success action
-    //             let result = parseJson(response);
-    //             return result;
-    //         }
-    //         else {
-    //             // dispatch Failure action
-    //             console.log("Failed: Reddit Comment API ");
-    //             console.log(response);
-    //             return {};
-    //         }
-    //     })
-    //     .catch(err => {
-    //         console.log("Error Reddit Comment API"+err)
-    //     })
-    //     console.log("Reddit Comment API values", comment_response);
-    //     // end test
     let arrPosts = [];
     for (let i=0; i < props.allPosts.length; i++) {
-        arrPosts.push(<Post key={i} postData={props.allPosts[i]} />)
+        arrPosts.push(<PostContainer key={i} postId={props.allPosts[i].reddit_id} />)
     }
+
     return (
-        <div className="row justify-content-center">{arrPosts}</div>
+        <div className="row align-content-center" style={{"flex-direction":"column"}}>
+            {/*arrPosts.length > 0 && arrPosts[0]*/}
+            {arrPosts}
+        </div>
     );
 }
 

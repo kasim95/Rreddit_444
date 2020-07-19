@@ -13,7 +13,7 @@ export const FETCH_COMMENTS_FAILURE = "FETCH_COMMENTS_FAILURE";
 // actionType for setSubreddit
 export const SET_SUBREDDIT = "SET_SUBREDDIT";
 
-// actionType for filterReducer
+// actionTypes for filterReducer
 export const FILTER_ALL = "FETCH_ALL";
 export const FILTER_TOP = "FETCH_TOP";
 export const FILTER_HOT = "FETCH_HOT";

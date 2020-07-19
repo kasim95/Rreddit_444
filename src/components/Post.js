@@ -1,6 +1,7 @@
 import './Post.css'
 import React from 'react';
 import { Container } from 'react-bootstrap';
+import CommentContainer from '../containers/CommentContainer';
 
 function Post(props) {
     const postData = props.postData;
@@ -8,7 +9,7 @@ function Post(props) {
         // get current time in utc
         const currentTimeUTC = Math.floor(((new Date()).getTime() / 1000)) // + ((new Date).getTimezoneOffset() * 60));
         return (
-            <Container className="bg-dark text-white p-2 rounded m-3 postDiv">
+            <Container className="bg-dark text-white p-2 rounded m-2 postDiv">
                 <div className="postheaderDiv pb-3 mb-1">
                     Posted by <a className="postauthor" href={"https://reddit.com/user/"+postData.author} target="_blank" rel="noopener noreferrer" >{postData.author}</a> <small>{Math.floor((currentTimeUTC - postData.created_utc) / (60 * 60))} hours ago </small>
                     {/* eslint-disable-next-line */}
@@ -29,6 +30,7 @@ function Post(props) {
                     {/* eslint-disable-next-line */}
                     <a className="postcommenticon far fa-comment pt-1" href="#showcomments" />
                 </div>
+                <CommentContainer postId={postData.reddit_id} />
             </Container>
         )
     }
