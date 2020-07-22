@@ -50,7 +50,7 @@ export const fetchCommentsFailure = (postId, error) => {
 export const logIn = () => ({ type: actionTypes.LOG_IN });
 export const logOut =  () => ({ type: actionTypes.LOG_OUT });
 
-// Filter Actions
+// Filter Post Actions
 export const filterBest = () => {
     return ({
         type: actionTypes.FILTER_BEST,
@@ -77,5 +77,25 @@ export const filterTop = () => {
         type: actionTypes.FILTER_TOP,
         filter: "top"
 
+    })
+}
+
+// Add and change subreddit actions
+export const setSubreddit = (newSubreddit) => {
+    return ({
+        type: actionTypes.SET_SUBREDDIT,
+        subreddit: newSubreddit
+    })
+}
+
+export const showSubredditModal = () => {
+    return ({
+        type: actionTypes.SHOW_SUBREDDIT_MODAL,
+    })
+}
+
+export const hideSubredditModal = () => {
+    return ({
+        type: actionTypes.HIDE_SUBREDDIT_MODAL,
     })
 }

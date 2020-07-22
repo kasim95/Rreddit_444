@@ -13,11 +13,15 @@ export const FETCH_COMMENTS_FAILURE = "FETCH_COMMENTS_FAILURE";
 // actionType for setSubreddit
 export const SET_SUBREDDIT = "SET_SUBREDDIT";
 
+// actionTypes for SubredditModal
+export const SHOW_SUBREDDIT_MODAL = "SHOW_SUBREDDIT_MODAL";
+export const HIDE_SUBREDDIT_MODAL = "HIDE_SUBREDDIT_MODAL";
+
 // actionTypes for filterReducer
-export const FILTER_TOP = "FILTER_TOP";
-export const FILTER_NEW = "FILTER_NEW";
-export const FILTER_HOT = "FILTER_HOT";
 export const FILTER_BEST = "FILTER_BEST";
+export const FILTER_HOT = "FILTER_HOT";
+export const FILTER_NEW = "FILTER_NEW";
+export const FILTER_TOP = "FILTER_TOP";
 
 // actionTypes for logUser
 export const LOG_IN = "LOG_IN";

@@ -54,6 +54,7 @@ const mapStateToProps = function(state) {
     // console.log("I am in mapStatetoProps", result)
     return {
         data: state.data,
+        error: state.posts.error,
         //logged: state.logged, //do not include logged here as using props in useEffect dependancies calls fetchPosts infinite times
         subreddit: state.subreddit,
         filter: state.filter,

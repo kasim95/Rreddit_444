@@ -1,7 +1,6 @@
 import * as actionTypes from '../actionTypes'
 
-const defaultFilter = "hot";
-const filterReducer = (state=defaultFilter, action) => {
+const filterReducer = (state="hot", action) => {
     switch(action.type) {
         case actionTypes.FILTER_BEST:
             return "best";
@@ -12,7 +11,7 @@ const filterReducer = (state=defaultFilter, action) => {
         case actionTypes.FILTER_TOP:
             return "top";
         default:
-            return defaultFilter;
+            return state;
     }
 };
 

@@ -3,7 +3,7 @@ import * as actionTypes from '../actionTypes'
 const subredditReducer = (state="news", action)  => {
     switch(action.type) {
         case actionTypes.SET_SUBREDDIT:
-            return action.payload.subreddit;
+            return action.subreddit;
         default:
             return state
     }
