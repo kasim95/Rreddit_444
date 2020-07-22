@@ -1,0 +1,20 @@
+.subCommentDiv {
+    /* border-top: 0.5px dotted #000000;*/
+    border-left: 3px solid #494a49;
+}
+
+.subCommentHeaderDiv {
+    width:100%;
+    font-size: 10px;
+    border-bottom: 0.1px dotted  #000000;
+    color: silver;
+    text-decoration:none;
+}
+
+a.subCommentHeaderAnchor:hover {
+    text-decoration: none;
+}
+
+.subCommentBodyDiv  {
+    font-size: 12px;
+}

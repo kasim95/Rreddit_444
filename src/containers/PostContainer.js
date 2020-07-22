@@ -17,7 +17,6 @@ const PostContainer = props => {
     return (
         <div>
             <Post key={postId} postData={postData} />
-            {/*<CommentContainer postId={postId} />*/}
         </div>
     )
 }

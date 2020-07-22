@@ -49,3 +49,33 @@ export const fetchCommentsFailure = (postId, error) => {
 // Login Actions (use only if required)
 export const logIn = () => ({ type: actionTypes.LOG_IN });
 export const logOut =  () => ({ type: actionTypes.LOG_OUT });
+
+// Filter Actions
+export const filterBest = () => {
+    return ({
+        type: actionTypes.FILTER_BEST,
+        filter: "best"
+    })
+}
+
+export const filterHot = () => {
+    return ({
+        type: actionTypes.FILTER_HOT,
+        filter: "hot"
+    })
+}
+
+export const filterNew = () => {
+    return ({ 
+        type: actionTypes.FILTER_NEW,
+        filter: "new"
+    })
+};
+
+export const filterTop = () => {
+    return ({
+        type: actionTypes.FILTER_TOP,
+        filter: "top"
+
+    })
+}

@@ -12,15 +12,21 @@ const CommentContainer = props => {
     
     // eslint-disable-next-line
     useEffect(() => props.fetchCommentsForPostId(postId, url), [])    
-    // console.log("CommentContainer = postId ", postId)
+    
     let commentData = []
     if (postId in props.comments) {
         commentData = props.comments[postId].commentData;
     }
+    // console.log("CommentContainer - postId", postId, ", commentData ",commentData);
 
+    let allCommentDivs = []
+    commentData.forEach(element => {
+        allCommentDivs.push(<Comment key={element.id} commentData={element} />);
+    });
     return (
-        <div>
-            <Comment commentData={commentData} />
+        <div style={{display: "block"}}>
+            {/* <Comment commentData={commentData} /> */}
+            {allCommentDivs.length > 0 ? allCommentDivs : <p style={{fontSize: "12px"}}>No Comments found</p>}
         </div>
     )
 }

@@ -18,7 +18,8 @@ function SubredditContainer(props) {
     
     //const url = `https://www.reddit.com/r/${useSelector(state => state.subreddit)}/${useSelector(state => state.filter)}/.json?`;
     const url = `https://www.reddit.com/r/${props.subreddit}/${props.filter}/.json?`;
-    const params = "limit=30";
+    //const params = "limit=30";
+    const params = "limit=5";
     const fullUrl = url+params;
     
     // useEffect is used to mimic ComponentDidMount lifecycle method
@@ -30,7 +31,7 @@ function SubredditContainer(props) {
     const fetchPostsDispatch = fullUrl => props.fetchPosts(fullUrl);
     // disable useEffect missing dependancies warning
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => fetchPostsDispatch(fullUrl), [])
+    useEffect(() => fetchPostsDispatch(fullUrl), [props.subreddit, props.filter])
 
     let arrPosts = [];
     for (let i=0; i < props.allPosts.length; i++) {
@@ -38,7 +39,7 @@ function SubredditContainer(props) {
     }
 
     return (
-        <div className="row align-content-center" style={{"flex-direction":"column"}}>
+        <div className="row align-content-center" style={{flexDirection: "column"}}>
             {/*arrPosts.length > 0 && arrPosts[0]*/}
             {arrPosts}
         </div>

@@ -14,9 +14,10 @@ export const FETCH_COMMENTS_FAILURE = "FETCH_COMMENTS_FAILURE";
 export const SET_SUBREDDIT = "SET_SUBREDDIT";
 
 // actionTypes for filterReducer
-export const FILTER_ALL = "FETCH_ALL";
-export const FILTER_TOP = "FETCH_TOP";
-export const FILTER_HOT = "FETCH_HOT";
+export const FILTER_TOP = "FILTER_TOP";
+export const FILTER_NEW = "FILTER_NEW";
+export const FILTER_HOT = "FILTER_HOT";
+export const FILTER_BEST = "FILTER_BEST";
 
 // actionTypes for logUser
 export const LOG_IN = "LOG_IN";

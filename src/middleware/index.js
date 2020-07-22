@@ -2,11 +2,11 @@ import { fetchPostsRequest, fetchPostsSuccess, fetchPostsFailure, fetchCommentsR
 import axios from 'axios';
 import { parseJson, parseJsonComments } from '../helpers';
 
-export const fetchPosts = (url, params) => {
+export const fetchPosts = (url) => {
     // use middleware here i.e. dispatch actionCreators
     return function(dispatch) {
         dispatch(fetchPostsRequest());
-        axios.get(url+params)
+        axios.get(url)
         .then(response => {
             if (response.status >= 200 && response.status <= 299) {
                 // console.log("Success fetching Reddit API", response);
@@ -36,7 +36,7 @@ export const fetchComments = (postId, url) => {
         .then(response => {
             if (response.status >= 200 && response.status <= 299) {
                 const commentData = parseJsonComments(response);
-                console.log("Comments fetch success ", response, " parsedJson: ", commentData, "postId: ", postId);
+                // console.log("Comments fetch success ", response, " parsedJson: ", commentData, "postId: ", postId);
                 dispatch(fetchCommentsSuccess(postId, commentData));                
                 // dispatch(fetchCommentsSuccess([]))
             }

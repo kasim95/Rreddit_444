@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { logIn } from './actions';
 
 import SubredditContainer from './containers/SubredditContainer';
-import Header from './components/Header';
+import HeaderContainer from './containers/HeaderContainer';
 import Footer from './components/Footer';
 
 import { Button } from 'react-bootstrap';
@@ -15,9 +15,9 @@ function App(props) {
     
     return (
         <div className="App">
-            <Header />
+            <HeaderContainer />
             {/*<button onClick={() => dispatch(logIn())} >Log In</button>*/}
-            <Button className="button button-info m-3" onClick={props.logIn}>Log In</Button>
+            <Button className="button button-info m-3" onClick={props.logIn}>Change State</Button>
             <SubredditContainer />
             <Footer />
         </div>

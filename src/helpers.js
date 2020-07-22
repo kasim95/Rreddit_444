@@ -1,7 +1,7 @@
 export const parseJson = responseJson => {
     if (responseJson) {
         if (responseJson.data.data.children) {
-            console.log("Post API detected for parseJson");
+            //console.log("Post API detected for parseJson");
             let children = responseJson.data.data.children;
             return extractPostFromChildren(children);
         }
@@ -21,7 +21,7 @@ export const parseJson = responseJson => {
 export const extractPostFromChildren = responseChildren => {
     if (responseChildren.length >= 0) {
         let counter = 0;
-        console.log("extractPostsFromChildren SUCCESS");
+        //console.log("extractPostsFromChildren SUCCESS");
         let result = responseChildren.map(child => {
             return ({
                 "author": child.data.author,
@@ -45,7 +45,7 @@ export const extractPostFromChildren = responseChildren => {
         return result;
     }
     else {
-        console.log("extractPostsFromChildren FAILED")
+        //console.log("extractPostsFromChildren FAILED")
         throw new Error("Children prop in Response Object is not an array");
     }
 }
@@ -118,3 +118,18 @@ export const getCommentReplies = subcomments => {
     return result;
 }
 
+// return time difference between created_time and current time in hours
+export const getTimeDiff = created_time => {
+    const currentTimeUTC = Math.floor(((new Date()).getTime()) / 1000)
+    return ((currentTimeUTC - created_time) / (60 * 60))
+}
+
+// handleonClick hide events
+export const toggleDiv = idDiv  => {
+    let div = document.getElementById(idDiv);
+        if (div) {
+            if (div.style.display === "none") div.style.display = "block";
+            else div.style.display = "none";    
+        }
+    else console.log("no div found to toggle ", idDiv);
+}
