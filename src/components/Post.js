@@ -2,11 +2,13 @@ import './Post.css'
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import CommentContainer from '../containers/CommentContainer';
-import { getTimeDiff, toggleDiv } from '../helpers';
+import { getTimeDiff, toggleDiv, decodeHTMLEntities } from '../helpers';
 
 
 function Post(props) {
     const postData = props.postData;
+    
+    // commentsDivId for showcomments link
     let commentsDivId = "subCommentsDiv_";
     if (postData) {
         commentsDivId = "subCommentsDiv_"+postData.reddit_id;
@@ -24,6 +26,17 @@ function Post(props) {
         return result;
     }
 
+    // convert links in text to anchors
+    const urlsInText = text => {
+        if (!text) return text;
+        else if (text === "null") return "";
+        
+        return decodeHTMLEntities(text);
+    }
+    const postBodyText = urlsInText(postData.selftext_html);
+
+    // todo: separate Post Header, Body and Footer into individual components
+    // todo: Same for Comment Components too
     if (postData) {
         return (
             <Container className="bg-dark text-white p-2 rounded m-2 postDiv">
@@ -37,12 +50,11 @@ function Post(props) {
                     <p className="posttitle">{postData.title}</p>
                 </div>
                 <div className="postbodyDiv pb-1 mb-1 mt-1">
-                    <p className="postbody">{postData.selftext_html}</p>
+                    {<p id="postbody" className="postbody" dangerouslySetInnerHTML={{ __html: postBodyText}}></p>}
                     <a className="posturl" href={postData.url } target="_blank" rel="noopener noreferrer" >
                         <div className="far fa-share-square" rel="noopener noreferrer" /> 
                         {/*" "+postData.url.slice(12,22+12)+"..."*/}
                         {" "+filterUrl(postData.url).slice(0, 24)+"..."}
-                    
                     </a>
                 </div>
                 <div className="postfooterDiv mt-1">
@@ -53,6 +65,8 @@ function Post(props) {
                 <div id={commentsDivId} style={{display: "none"}}>
                     {<CommentContainer postId={postData.reddit_id} />}
                 </div>
+                {/* Set target of postBody anchor tags to _blank */}
+                {document.querySelectorAll("#postbody a").forEach(a => a.setAttribute("target", "_blank"))}
             </Container>
         )
     }

@@ -133,3 +133,32 @@ export const toggleDiv = idDiv  => {
         }
     else console.log("no div found to toggle ", idDiv);
 }
+
+// convert HTML Entity References to text
+export const decodeHTMLEntities = html => {
+    var doc = new DOMParser().parseFromString(html, "text/html");
+    return doc.documentElement.textContent;
+}
+
+// Convert links in text to anchor tags
+// https://stackoverflow.com/questions/37684/how-to-replace-plain-urls-with-links
+export const linkify = inputText => {
+    var replacedText, replacePattern1, replacePattern2, replacePattern3;
+
+    // URLs starting with http://, https://, or ftp://
+    // eslint-disable-next-line
+    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+    replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+    
+    // URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+    // eslint-disable-next-line
+    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+    // Change email addresses to mailto:: links.
+    // eslint-disable-next-line
+    replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+    replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+
+    return replacedText;
+}

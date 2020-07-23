@@ -47,6 +47,19 @@ a.postredditicon:active {
     text-decoration: none;
 }
 
+.postbody a {
+    color: red;
+    text-decoration: none;
+}
+
+.postbody a:hover {
+    text-decoration: underline;
+}
+
+.postbody a:active {
+    color:  silver;
+}
+
 a.posturl {
     font-size: 10px;
     display: block;
