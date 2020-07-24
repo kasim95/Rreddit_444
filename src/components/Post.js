@@ -2,7 +2,7 @@ import './Post.css'
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import CommentContainer from '../containers/CommentContainer';
-import { getTimeDiff, toggleDiv, decodeHTMLEntities } from '../helpers';
+import { getTimeDiff, convertHoursToText, toggleDiv, decodeHTMLEntities } from '../helpers';
 
 
 function Post(props) {
@@ -35,6 +35,9 @@ function Post(props) {
     }
     const postBodyText = urlsInText(postData.selftext_html);
 
+    // calculate time when the post was created
+    let postHeaderTime = convertHoursToText(getTimeDiff(postData.created_utc));
+
     // todo: separate Post Header, Body and Footer into individual components
     // todo: Same for Comment Components too
     if (postData) {
@@ -42,7 +45,18 @@ function Post(props) {
             <Container className="bg-dark text-white p-2 rounded m-2 postDiv">
                 <div className="postheaderDiv pb-3 mb-1">
                     {/*Posted by <a className="postauthor" href={"https://reddit.com/user/"+postData.author} target="_blank" rel="noopener noreferrer" >{postData.author}</a> <small>{Math.floor((currentTimeUTC - postData.created_utc) / (60 * 60))} hours ago </small>*/}
-                    Posted by <a className="postauthor" href={"https://reddit.com/user/"+postData.author} target="_blank" rel="noopener noreferrer" >{postData.author}</a> <small>{Math.floor(getTimeDiff(postData.created_utc))} hours ago </small>
+                    Posted by 
+                    <a 
+                    className="postauthor" 
+                    href={"https://reddit.com/user/"+postData.author} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    >
+                        {" "+postData.author}
+                    </a> 
+                    <small>
+                        {" "+postHeaderTime}
+                    </small>
                     {/* eslint-disable-next-line */}
                     <a className="postredditicon fab fa-reddit fa-2x float-right" href={"https://www.reddit.com"+postData.permalink} target="_blank" rel="noopener noreferrer" />
                 </div>

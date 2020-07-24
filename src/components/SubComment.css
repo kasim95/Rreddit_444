@@ -15,6 +15,16 @@ a.subCommentHeaderAnchor:hover {
     text-decoration: none;
 }
 
+a.subCommentAuthor {
+    text-decoration: none;
+    color: rgb(119, 116, 116)
+}
+
+a.subCommentAuthor:hover {
+    text-decoration: underline;
+    color: silver;
+}
+
 .subCommentBodyDiv  {
     font-size: 12px;
 }

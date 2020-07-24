@@ -124,6 +124,16 @@ export const getTimeDiff = created_time => {
     return ((currentTimeUTC - created_time) / (60 * 60))
 }
 
+// return time difference between created_time and cureent time in years, months, days, hours and minutes
+export const convertHoursToText = timeDiffHours => {
+    if (timeDiffHours < 1) return `${Math.floor(timeDiffHours * 60)} minutes ago`;
+    else if (timeDiffHours < 24) return `${Math.floor(timeDiffHours)} hours ago`;
+    else if (timeDiffHours < (24 * 30)) return `${Math.floor(timeDiffHours / 24)} days ago`;
+    else if (timeDiffHours < (24 * 30 * 12)) return `${Math.floor(timeDiffHours / (24 * 30))} months ago`;
+    else return `${Math.floor(timeDiffHours / (24 * 30 * 12))} years ago`;
+
+}
+
 // handleonClick hide events
 export const toggleDiv = idDiv  => {
     let div = document.getElementById(idDiv);
@@ -141,6 +151,7 @@ export const decodeHTMLEntities = html => {
 }
 
 // Convert links in text to anchor tags
+// THIS FUNCTION IS NOT USED (CAN DELETE)
 // https://stackoverflow.com/questions/37684/how-to-replace-plain-urls-with-links
 export const linkify = inputText => {
     var replacedText, replacePattern1, replacePattern2, replacePattern3;

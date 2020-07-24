@@ -1,19 +1,12 @@
 import React from 'react';
 import './SubComment.css';
 import { Container } from 'react-bootstrap';
-import { getTimeDiff, toggleDiv } from '../helpers';
+import { getTimeDiff, toggleDiv, convertHoursToText } from '../helpers';
 
 function SubComment(props) {
     if (props.subCommentData) {
         // time
-        const timeDiff = getTimeDiff(props.subCommentData.created_utc);
-        let timeDiffText = "-1";
-        if (timeDiff > 1) {
-            timeDiffText = Math.floor(timeDiff) + " hours ago";
-        }
-        else {
-            timeDiffText = Math.floor(timeDiff * 60) + " minutes ago"
-        }
+        const timeDiffText = convertHoursToText(getTimeDiff(props.subCommentData.created_utc));
         
         // replies
         let subCommentReplies = []
@@ -29,7 +22,14 @@ function SubComment(props) {
             <Container className="bg-dark variant-dark subCommentDiv pt-1">
                 <a href="#hide" className="subCommentHeaderAnchor" onClick={() => toggleDiv(subCommentBodyDivId)}>
                     <div className="subCommentHeaderDiv">
-                        {props.subCommentData.author}
+                        <a
+                        className="subCommentAuthor"
+                        href={`https://reddit.com/user/${props.subCommentData.author}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >
+                            {props.subCommentData.author}
+                        </a>                        
                         <small>
                             {"   "+timeDiffText}        
                         </small>

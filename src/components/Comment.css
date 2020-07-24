@@ -14,6 +14,16 @@ a.commentHeaderAnchor:hover {
     text-decoration: none;
 }
 
+a.commentAuthor {
+    text-decoration: none;
+    color: rgb(119, 116, 116)
+}
+
+a.commentAuthor:hover {
+    text-decoration: underline;
+    color: silver;
+}
+
 .commentBodyDiv  {
     font-size: 12px;
 

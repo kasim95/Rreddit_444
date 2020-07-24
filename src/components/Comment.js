@@ -2,7 +2,7 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import './Comment.css';
 import SubComment from './SubComment';
-import { getTimeDiff, toggleDiv } from '../helpers';
+import { getTimeDiff, toggleDiv, convertHoursToText } from '../helpers';
 
 const Comment = props => {
     const commentData = props.commentData;
@@ -10,14 +10,7 @@ const Comment = props => {
     if (commentData) {
         
         //time
-        const timeDiff = getTimeDiff(commentData.created_utc);
-        let timeDiffText = "No time";
-        if (timeDiff > 1) {
-            timeDiffText = Math.floor(timeDiff) + " hours ago";
-        }
-        else {
-            timeDiffText = Math.floor(timeDiff * 60) + " minutes ago"
-        }
+        const timeDiffText = convertHoursToText(getTimeDiff(commentData.created_utc));
 
         // replies
         let subComments = []
@@ -35,10 +28,17 @@ const Comment = props => {
             <Container className="bg-dark text-white p-2 m-1 rounded commentDiv">
                 <a href="#hide" onClick={() => toggleDiv(commentBodyDivId)} className="commentHeaderAnchor">
                     <div className="commentHeaderDiv">
-                        {commentData.author}            
+                        <a
+                        className="commentAuthor"
+                        href={`https://reddit.com/user/${commentData.author}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >
+                            {commentData.author}
+                        </a>
                         <small>
                             {/* Add time in hours ago here*/}
-                            {"  "+timeDiffText}
+                            {" "+timeDiffText}
                         </small>
                     </div>
                 </a>
