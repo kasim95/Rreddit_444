@@ -47,6 +47,14 @@ a.postredditicon:active {
     text-decoration: none;
 }
 
+.posttitle {
+    font-size: 20px;
+}
+
+.postbody {
+    font-size: 15px;
+}
+
 .postbody a {
     color: red;
     text-decoration: none;

@@ -28,7 +28,7 @@ export const HeaderContainer = props => {
 
     const NavbarBrand = () => {
         return (
-            <Navbar.Brand href="#home" className="logo">
+            <Navbar.Brand href="/" className="logo">
                 <img alt="Rreddit 444"
                     src={require("./logo.png")} 
                     width="30"
@@ -36,8 +36,7 @@ export const HeaderContainer = props => {
                     className='d-inline-block align-top' 
                 />
                 {'  '}
-                {/*Rreddit 444*/}
-                Smiley Face
+                Rreddit 444
             </Navbar.Brand>
         )
     }
@@ -82,7 +81,8 @@ export const HeaderContainer = props => {
                     <NavbarSubreddit />
                 </Nav>
                 <Nav>
-                    <Nav.Link href="#logIn">Log In</Nav.Link>
+                    <Nav.Link href="/register">Register</Nav.Link>
+                    <Nav.Link href="/logIn">Log In</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
