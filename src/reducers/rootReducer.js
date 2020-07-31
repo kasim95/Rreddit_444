@@ -4,7 +4,8 @@ import commentsReducer from './commentsReducer';
 import subredditReducer from './subredditReducer';
 import filterReducer from './filterReducer';
 import showSubredditModalReducer from './showSubredditModalReducer';
-import { reducer as formReducer } from 'redux-form';
+import loginReducer from './loginReducer';
+// import { reducer as formReducer } from 'redux-form';
 import {combineReducers} from 'redux';
 
 // only passing loggedReducer in ES6 interprets to loggedReducer: loggedReducer
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
     filter: filterReducer,
     comments: commentsReducer,
     showSubredditModal: showSubredditModalReducer,
-    form: formReducer
+    // form: formReducer
+    login: loginReducer
 });
 
 export default rootReducer;

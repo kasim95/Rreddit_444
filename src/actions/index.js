@@ -99,3 +99,31 @@ export const hideSubredditModal = () => {
         type: actionTypes.HIDE_SUBREDDIT_MODAL,
     })
 }
+
+// actions for login user
+export const loginRequest = user => {
+    return ({
+        type: actionTypes.LOGIN_REQUEST,
+        user
+    })
+}
+
+export const loginSuccess = userData => {
+    return ({
+        type: actionTypes.LOGIN_SUCCESS,
+        userData
+    })
+}
+
+export const loginFailure = error => {
+    return ({
+        type: actionTypes.LOGIN_FAILURE,
+        error
+    })
+}
+
+export const logout = () => {
+    return ({
+        type: actionTypes.LOGOUT
+    })
+}

@@ -82,7 +82,7 @@ export const HeaderContainer = props => {
                 </Nav>
                 <Nav>
                     <Nav.Link href="/register">Register</Nav.Link>
-                    <Nav.Link href="/logIn">Log In</Nav.Link>
+                    <Nav.Link href="/login">Log In</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
