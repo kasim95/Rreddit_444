@@ -1,5 +1,6 @@
 import { withFormik } from 'formik';
 import Register from '../components/Register';
+import axios from 'axios';
 
 const RegisterContainer = withFormik({
     
@@ -57,6 +58,16 @@ const RegisterContainer = withFormik({
     handleSubmit: async (values, { setSubmitting }) => {
         await new Promise(resolve => setTimeout(resolve, 500));
         setSubmitting(false);
+        
+        // save to mongodb
+        axios.post('/registerUser', values)
+        .then(response=> {
+            console.log("Register User success ", response);
+        })
+        .catch(error => {
+            console.error("Register user failed ", error);
+        })
+
         console.log("Register form submmitted ", values)
     },
     
