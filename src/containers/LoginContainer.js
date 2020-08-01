@@ -2,7 +2,7 @@ import Login from '../components/Login';
 import { withFormik } from 'formik';
 import { connect } from 'react-redux';
 import { loginRequest, loginSuccess, loginFailure } from '../actions';
-// import axios from 'axios';
+import axios from 'axios';
 
 const loginUser = user => {
     return function(dispatch) {
@@ -66,6 +66,17 @@ const LoginContainer = withFormik({
         await new Promise(resolve => setTimeout(resolve, 500));
         setSubmitting(false);
         props.dispatch(loginUser(values));
+        
+        // call this code using a middleware
+        axios.post('/loginUser', values)
+        .then(response=> {
+            console.log("Login User success ", response);
+        })
+        .catch(error => {
+            console.error("Login user failed ", error);
+        })
+        //
+
         console.log("Login form submitted ", values)
     },
 

@@ -1,6 +1,7 @@
 import { withFormik } from 'formik';
 import Register from '../components/Register';
 import axios from 'axios';
+import history from './history';
 
 const RegisterContainer = withFormik({
     
@@ -69,6 +70,10 @@ const RegisterContainer = withFormik({
         })
 
         console.log("Register form submmitted ", values)
+        
+        // route to homepage
+        history.push('/');
+        // dispatch fetchposts here to rerender Subreddit component (mimic ComponentDidUpdate)
     },
     
     displayName: "RegisterForm"

@@ -9,14 +9,14 @@ import { Button } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import RegisterContainer from './containers/RegisterContainer';
 import LoginContainer from './containers/LoginContainer';
-
+import history from './containers/history';
 
 function App(props) {
     // const logged = useSelector(state => state.logged);
     // const dispatch = useDispatch();
     
     return (
-        <Router>
+        <Router history={history}>
             <div className="App">
                 <HeaderContainer />
                 {/*<button onClick={() => dispatch(logIn())} >Log In</button>*/}
