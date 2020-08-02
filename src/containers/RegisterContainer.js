@@ -18,7 +18,7 @@ const RegisterContainer = withFormik({
     }),
 
     // Form Validation
-    validate: values => {
+    validate: async values => {
         const errors = {};
         
         // required fields
@@ -40,7 +40,11 @@ const RegisterContainer = withFormik({
         if (values.username && values.username.length > 20) {
             errors.username = "Username must be maximum 20 characters";
         }
-
+        const usernameResponse = await axios.get(`/checkField?username=${values.username}`)
+        if (usernameResponse.data && usernameResponse.data.fieldExists) {
+            errors.username = `${values.username} is already taken`;
+        }
+        
         // password
         if (values.password && values.password.length < 8 && values.password.length > 16) {
             errors.password = "Password must be between 8 and 16 characters in length";
@@ -50,7 +54,12 @@ const RegisterContainer = withFormik({
         if (values.email && ! /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
             errors.email = "Invalid email address";    
         }
-    
+        const emailResponse = await axios.get(`/checkField?email=${values.email}`);
+        
+        if (emailResponse.data && emailResponse.data.fieldExists) {
+            errors.email = `An account already exists with the email ${values.email}`;
+        }
+        
         // add code here for asyncValidation
         return errors;
     },
