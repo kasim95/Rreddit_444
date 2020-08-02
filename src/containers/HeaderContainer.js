@@ -3,7 +3,7 @@ import './HeaderContainer.css';
 import { Navbar, Nav } from 'react-bootstrap';
 // import { NavItem, Form, FormControl, Button, NavDropdown, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { filterBest, filterHot, filterNew, filterTop, setSubreddit, showSubredditModal, hideSubredditModal } from '../actions';
+import { filterBest, filterHot, filterNew, filterTop, setSubreddit, showSubredditModal, hideSubredditModal, logout } from '../actions';
 import SubredditModalContainer from './SubredditModalContainer';
 
 export const HeaderContainer = props => {
@@ -66,7 +66,25 @@ export const HeaderContainer = props => {
         )
     }
 
+
+    const NavbarLogging = () => {
+        if (props.login.isLogged) {
+            return (
+                <Nav>
+                    <Nav.Link href="#logout" onClick={() => props.dispatchLogout()}>Log Out</Nav.Link>
+                </Nav>
+            )
+        }
+        else {
+            return (
+                <Nav>
+                    <Nav.Link href="/register">Register</Nav.Link>
+                    <Nav.Link href="/login">Log In</Nav.Link>
+                </Nav>
+            )
     
+        }
+    }
 
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -80,10 +98,7 @@ export const HeaderContainer = props => {
                     <Nav.Link href="#top" id="top" onClick={handleFilter}>Top</Nav.Link>
                     <NavbarSubreddit />
                 </Nav>
-                <Nav>
-                    <Nav.Link href="/register">Register</Nav.Link>
-                    <Nav.Link href="/login">Log In</Nav.Link>
-                </Nav>
+                <NavbarLogging />
             </Navbar.Collapse>
         </Navbar>
     );
@@ -93,7 +108,8 @@ const mapStateToProps = state => {
     return {
         subreddit: state.subreddit,
         logged: state.logged,
-        filter: state.filter 
+        filter: state.filter,
+        login: state.login
     }
 }
 
@@ -105,8 +121,8 @@ const mapDispatchToProps = dispatch => {
         dispatchFilterTop: () => dispatch(filterTop()),
         dispatchSetSubreddit: newSubreddit => dispatch(setSubreddit(newSubreddit)),
         dispatchShowSubredditModal: () => dispatch(showSubredditModal()),
-        dispatchHideSubredditModal: () => dispatch(hideSubredditModal())
-    
+        dispatchHideSubredditModal: () => dispatch(hideSubredditModal()),
+        dispatchLogout: () => dispatch(logout())
     })
 }
 
