@@ -33,3 +33,16 @@ a.commentAuthor:hover {
     visibility: hidden;
     display: none;
 }
+
+.commentBodyText {
+    text-decoration: none;
+    color: silver;
+}
+
+.commentBodyText a {
+    color: silver;
+}
+
+.commentBodyText a:hover {
+    text-decoration: underline;
+}

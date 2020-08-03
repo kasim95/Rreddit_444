@@ -28,3 +28,16 @@ a.subCommentAuthor:hover {
 .subCommentBodyDiv  {
     font-size: 12px;
 }
+
+.subCommentBodyText {
+    text-decoration: none;
+    color: silver;
+}
+
+.subCommentBodyText a {
+    color: silver;
+}
+
+.subCommentBodyText a:hover {
+    text-decoration: underline;
+}

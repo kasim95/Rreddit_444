@@ -2,13 +2,15 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import './Comment.css';
 import SubComment from './SubComment';
-import { getTimeDiff, toggleDiv, convertHoursToText } from '../helpers';
+import { getTimeDiff, toggleDiv, convertHoursToText, urlsInText } from '../helpers';
 
 const Comment = props => {
     const commentData = props.commentData;
     // console.log("Comment Component - commentData:",commentData);
     if (commentData) {
-        
+        // convert links in comment to anchors
+        const commentBodyText = urlsInText(commentData.body_html);
+
         //time
         const timeDiffText = convertHoursToText(getTimeDiff(commentData.created_utc));
 
@@ -44,12 +46,15 @@ const Comment = props => {
                 </a>
                 <div className="commentBodyDiv" id={"commentBodyDiv_"+commentData.id}>
                     <div className="commentTextDiv">
-                        {commentData.body}
+                        {<p id="commentBodyText" className="commentBodyText" dangerouslySetInnerHTML={{ __html: commentBodyText}}></p>}
+                    
+                        {/* commentData.body */}
                     </div>
                     <div className="commentSubCommentsDiv">
                         {subComments}
                     </div>
                 </div> 
+                {document.querySelectorAll("#commentBodyText a").forEach(a => a.setAttribute("target", "_blank"))}
             </Container>
         )
     }

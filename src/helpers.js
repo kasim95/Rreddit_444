@@ -150,6 +150,14 @@ export const decodeHTMLEntities = html => {
     return doc.documentElement.textContent;
 }
 
+// convert links in text to anchors 
+// just checks text before calling decodeHTMLEntities
+export const urlsInText = text => {
+    if (!text) return text;
+    else if (text === "null") return "";
+    return decodeHTMLEntities(text);
+}
+
 // Convert links in text to anchor tags
 // THIS FUNCTION IS NOT USED (CAN DELETE)
 // https://stackoverflow.com/questions/37684/how-to-replace-plain-urls-with-links

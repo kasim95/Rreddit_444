@@ -1,10 +1,13 @@
 import React from 'react';
 import './SubComment.css';
 import { Container } from 'react-bootstrap';
-import { getTimeDiff, toggleDiv, convertHoursToText } from '../helpers';
+import { getTimeDiff, toggleDiv, convertHoursToText, urlsInText } from '../helpers';
 
 function SubComment(props) {
     if (props.subCommentData) {
+        // body text
+        const subCommentBodyText = urlsInText(props.subCommentData.body_html);
+
         // time
         const timeDiffText = convertHoursToText(getTimeDiff(props.subCommentData.created_utc));
         
@@ -37,12 +40,15 @@ function SubComment(props) {
                 </a>
                 <div className="subCommentBodyDiv" id={"subCommentBodyDiv_"+props.subCommentData.id}>
                     <div className="subCommentText">
-                        {props.subCommentData.body}
+                        {<p id="subCommentBodyText" className="subCommentBodyText" dangerouslySetInnerHTML={{ __html: subCommentBodyText}}></p>}
+                    
+                        {/* props.subCommentData.body */}
                     </div>
                     <div className="subCommentReplies">  
                         {subCommentReplies}                                  
                     </div>
                 </div>
+                {document.querySelectorAll("#subCommentBodyText a").forEach(a => a.setAttribute("target", "_blank"))}
             </Container>
         )    
     }

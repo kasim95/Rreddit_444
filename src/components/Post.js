@@ -2,7 +2,7 @@ import './Post.css'
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import CommentContainer from '../containers/CommentContainer';
-import { getTimeDiff, convertHoursToText, toggleDiv, decodeHTMLEntities } from '../helpers';
+import { getTimeDiff, convertHoursToText, toggleDiv, urlsInText } from '../helpers';
 
 
 function Post(props) {
@@ -27,12 +27,12 @@ function Post(props) {
     }
 
     // convert links in text to anchors
-    const urlsInText = text => {
-        if (!text) return text;
-        else if (text === "null") return "";
+    // const urlsInText = text => {
+    //     if (!text) return text;
+    //     else if (text === "null") return "";
         
-        return decodeHTMLEntities(text);
-    }
+    //     return decodeHTMLEntities(text);
+    // }
     const postBodyText = urlsInText(postData.selftext_html);
 
     // calculate time when the post was created
