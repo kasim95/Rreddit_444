@@ -1,15 +1,14 @@
 import React from 'react';
 import './App.css';
 import { connect } from 'react-redux';
-import { logIn } from './actions';
+// import { logIn } from './actions';
 import SubredditContainer from './containers/SubredditContainer';
 import HeaderContainer from './containers/HeaderContainer';
 import Footer from './components/Footer';
-import { Button } from 'react-bootstrap';
+// import { Button } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import RegisterContainer from './containers/RegisterContainer';
 import LoginContainer from './containers/LoginContainer';
-// import history from './containers/history';
 
 
 function App(props) {
@@ -19,10 +18,11 @@ function App(props) {
         <Router>
             <div className="App">
                 <HeaderContainer />
-                {/*<button onClick={() => dispatch(logIn())} >Log In</button>*/}
+                {/*
                 <div>
                     <Button className="button button-info m-3" onClick={props.logIn}>Change State</Button>
                 </div>
+                */}
                 <Switch>
                     <Route path="/" exact component={SubredditContainer} />
                     <Route path="/register" exact component={RegisterContainer} />
@@ -35,12 +35,13 @@ function App(props) {
 }
 
 const mapStateToProps = state => ({
-        logged: state.logged,
+        // logged: state.logged,
         subreddit: state.subreddit,
         filter: state.filter
     })
 
-const mapDispatchToProps = dispatch => ({ logIn: () => dispatch(logIn()) })
+// const mapDispatchToProps = dispatch => ({ logIn: () => dispatch(logIn()) })
 
 // export default App;
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+// export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);

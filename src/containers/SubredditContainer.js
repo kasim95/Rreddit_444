@@ -19,7 +19,7 @@ function SubredditContainer(props) {
     //const url = `https://www.reddit.com/r/${useSelector(state => state.subreddit)}/${useSelector(state => state.filter)}/.json?`;
     const url = `https://www.reddit.com/r/${props.subreddit}/${props.filter}/.json?`;
     //const params = "limit=30";
-    const params = "limit=5";
+    const params = "limit=20";
     const fullUrl = url+params;
     
     // useEffect is used to mimic ComponentDidMount lifecycle method
