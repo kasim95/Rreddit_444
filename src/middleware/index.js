@@ -1,4 +1,14 @@
-import { fetchPostsRequest, fetchPostsSuccess, fetchPostsFailure, fetchCommentsRequest, fetchCommentsFailure, fetchCommentsSuccess } from '../actions';
+import { 
+    fetchPostsRequest, 
+    fetchPostsSuccess, 
+    fetchPostsFailure, 
+    fetchCommentsRequest, 
+    fetchCommentsFailure, 
+    fetchCommentsSuccess, 
+    loginRequest,
+    loginSuccess,
+    loginFailure
+} from '../actions';
 import axios from 'axios';
 import { parseJson, parseJsonComments } from '../helpers';
 
@@ -51,3 +61,33 @@ export const fetchComments = (postId, url) => {
         })
     }
 };
+
+export const loginUser = user => {
+    return function(dispatch) {
+        console.log("I am inside loginUser dispatch fn");
+        dispatch(loginRequest(user));
+
+        const loginUrl = "/loginUser";
+        axios.post(loginUrl, user)
+        .then(response => {
+            console.log("I am inside Post req .then", response);
+            if (response.status >= 200 && response.status <= 299 && response.data.isLogged) {
+                console.log("Login User success ", response);
+                let userData;
+                if (response.data.userData) {
+                    userData = response.data.userData;
+                }
+                dispatch(loginSuccess(userData));
+            }
+            else {
+                console.log("Login user authentication failure");
+                dispatch(loginFailure("Login user authentication failure"));
+            }            
+        })
+        .catch(error => {
+            console.log('I am inside Post req .catch')
+            console.error("Login user failed ", error);
+            dispatch(loginFailure(error));
+        });
+    }
+}

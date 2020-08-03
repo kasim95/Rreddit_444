@@ -9,14 +9,14 @@ import { Button } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import RegisterContainer from './containers/RegisterContainer';
 import LoginContainer from './containers/LoginContainer';
-import history from './containers/history';
+// import history from './containers/history';
+
 
 function App(props) {
     // const logged = useSelector(state => state.logged);
     // const dispatch = useDispatch();
-    
     return (
-        <Router history={history}>
+        <Router>
             <div className="App">
                 <HeaderContainer />
                 {/*<button onClick={() => dispatch(logIn())} >Log In</button>*/}
@@ -24,19 +24,13 @@ function App(props) {
                     <Button className="button button-info m-3" onClick={props.logIn}>Change State</Button>
                 </div>
                 <Switch>
-                    <Route path="/" exact>
-                        <SubredditContainer />
-                    </Route>
-                    <Route path="/register" exact>
-                        <RegisterContainer />
-                    </Route>
-                    <Route path="/login" exact>
-                        <LoginContainer />
-                    </Route>
+                    <Route path="/" exact component={SubredditContainer} />
+                    <Route path="/register" exact component={RegisterContainer} />
+                    <Route path="/login" exact component={LoginContainer} />
                 </Switch>
                 <Footer />
             </div>
-        </Router>
+        </Router>    
     );
 }
 

@@ -1,9 +1,12 @@
 import React from 'react';
 import './Login.css'
 import { TextField } from '@material-ui/core';
-
+import { connect, getIn } from 'formik';
+import { Link } from 'react-router-dom';
 
 const Login = props => {
+    
+    /*
     const {
         values,
         touched,
@@ -13,6 +16,15 @@ const Login = props => {
         handleBlur,
         handleSubmit
     } = props;
+    */
+   const values = getIn(props.formik.values);
+   const touched = getIn(props.formik.touched);
+   const errors = getIn(props.formik.errors);
+   const isSubmitting = getIn(props.formik.isSubmitting);
+   const handleChange = getIn(props.formik.handleChange);
+   const handleBlur = getIn(props.formik.handleBlur);
+   const handleSubmit = getIn(props.formik.handleSubmit);
+   // const dispatch = getIn(props.formik.dispatch);
     
     return (
         <form onSubmit={handleSubmit}>
@@ -79,7 +91,7 @@ const Login = props => {
                     </div>
                     <div className="m-0 p-2 text-center">
                         Don't have an account. 
-                        <a href="\register" className="p-1">Register</a>
+                        <Link to="\register" className="p-1">Register</Link>
                     </div>
                 </div>
             </div>
@@ -87,5 +99,5 @@ const Login = props => {
     )
 }
 
-
-export default Login;
+// this is the formik connect not react-redux connect
+export default connect(Login);

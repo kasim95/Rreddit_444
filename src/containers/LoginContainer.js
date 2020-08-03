@@ -1,48 +1,21 @@
+import React from 'react';
 import Login from '../components/Login';
-import { withFormik } from 'formik';
+import { Formik } from 'formik';
 import { connect } from 'react-redux';
-import { loginRequest, loginSuccess, loginFailure } from '../actions';
-import axios from 'axios';
+// import { loginRequest, loginSuccess, loginFailure } from '../actions';
+// import axios from 'axios';
+// import history from './history';
+// import { useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+import { loginUser } from '../middleware';
 
-const loginUser = user => {
-    return function(dispatch) {
-        dispatch(loginRequest(user));
-        
-        // remove this line later
-        dispatch(loginSuccess({}));
-        if (1 === 2) {
-            dispatch(loginFailure("some error"));
-        }
-        //
-
-        // construct a post request to nodejs api and 
-        // check if user creds are correct or not
-        // if correct logins, get userData from api and dispatch loginSuccess
-        // axios.get(url).
-        // .then(response => {
-        // if (response.status >= 200 && response.status <= 299) {
-        //     if (response.loginStatus === true) {
-        //         dispatch(loginSuccess(response.userData))    
-        //     }
-        //     else {
-        //         dispatch(loginFailure(response.error))
-        //     }
-        // }
-        // })
-    }
-}
-
-
-const LoginContainer = withFormik({
-    
-    // Initialize Login form values
-    mapPropsToValues: () => ({
+const LoginContainer = props => (
+    <Formik
+    initialValues={{
         username: "",
         password: ""
-    }),
-
-    // Synchronous Validation
-    validate: values => {
+    }}
+    validate={values => {
         const errors = {}
         
         // username
@@ -59,29 +32,30 @@ const LoginContainer = withFormik({
         }
 
         return errors;
-    },
-    
-    // handleSubmit code
-    handleSubmit: async (values, { props, setSubmitting }) => {
-        await new Promise(resolve => setTimeout(resolve, 500));
-        setSubmitting(false);
-        props.dispatch(loginUser(values));
-        
-        // call this code using a middleware
-        axios.post('/loginUser', values)
-        .then(response=> {
-            console.log("Login User success ", response);
-        })
-        .catch(error => {
-            console.error("Login user failed ", error);
-        })
-        //
+    }}
+    onSubmit={
+        async (values, { setSubmitting }) => {
+            console.log("I am inside Login onSubmit")
+            props.dispatchLoginUser(values);
+            
+            setSubmitting(false);
+            console.log("Login form submitted ", values)
+        }
+    }
+    >
+        <div>
+        <Login />
+        {props.loginInfo.isLogged ? <Redirect push to="/" /> : null}
+        </div>
+    </Formik>
+)
 
-        console.log("Login form submitted ", values)
-    },
+const mapStateToProps = state => ({
+    loginInfo: state.login
+})
 
-    displayName: "LoginForm"
+const mapDispatchToProps = dispatch => ({
+    dispatchLoginUser: values => dispatch(loginUser(values))
+})
 
-})(Login);
-
-export default connect()(LoginContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);

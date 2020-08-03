@@ -5,6 +5,7 @@ import { Navbar, Nav } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { filterBest, filterHot, filterNew, filterTop, setSubreddit, showSubredditModal, hideSubredditModal, logout } from '../actions';
 import SubredditModalContainer from './SubredditModalContainer';
+import { Link } from 'react-router-dom';
 
 export const HeaderContainer = props => {
     const handleFilter = e => {
@@ -78,8 +79,10 @@ export const HeaderContainer = props => {
         else {
             return (
                 <Nav>
-                    <Nav.Link href="/register">Register</Nav.Link>
-                    <Nav.Link href="/login">Log In</Nav.Link>
+                    <Link to="/register" className="nav-link">Register</Link>
+                    <Link to="/login" className="nav-link">Log In</Link>
+                    {/*<Nav.Link href="/register">Register</Nav.Link>
+                    <Nav.Link href="/login">Log In</Nav.Link>*/}
                 </Nav>
             )
     

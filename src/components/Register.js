@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect, getIn } from 'formik';
+import { Link } from 'react-router-dom';
+
 import {
     TextField,
     FormControl, 
@@ -8,6 +11,7 @@ import {
 } from '@material-ui/core';
 
 const Register = props => {
+    /*
     const {
         values,
         touched,
@@ -19,6 +23,17 @@ const Register = props => {
         handleSubmit,
         handleReset
     } = props;
+    */
+    const values = getIn(props.formik.values);
+    const touched = getIn(props.formik.values);
+    const errors = getIn(props.formik.dirty);
+    const dirty = getIn(props.formik.dirty);
+    const isSubmitting = getIn(props.formik.isSubmitting);
+    const handleChange = getIn(props.formik.handleChange);
+    const handleBlur = getIn(props.formik.handleBlur);
+    const handleSubmit = getIn(props.formik.handleSubmit);
+    const handleReset = getIn(props.formik.handleReset);
+    // const dispatch = getIn(props.formik.dispatch);
 
     return (
         <form onSubmit={handleSubmit}>
@@ -259,7 +274,7 @@ const Register = props => {
                         </div>
                     </div>
                     <div className="row justify-content-end m-0 p-2">                            
-                    Already have an account?<a href="/login" className="pl-1">Log In</a>
+                    Already have an account?<Link href="/login" className="pl-1">Log In</Link>
                     </div>
                 </div>
             </div>
@@ -267,5 +282,5 @@ const Register = props => {
     )
 }
 
-
-export default Register;
+// this is formik connect and not react-redux connect
+export default connect(Register);

@@ -1,12 +1,16 @@
-import { withFormik } from 'formik';
+import React from 'react';
 import Register from '../components/Register';
 import axios from 'axios';
-import history from './history';
+import { connect } from 'react-redux';
+import { Formik } from 'formik';
+import { loginUser } from '../middleware';
+import { Redirect } from 'react-router-dom';
+// change this to loginUser
 
-const RegisterContainer = withFormik({
-    
-    // Initialize values for form fields
-    mapPropsToValues: () => ({ 
+const RegisterContainer = props => (
+
+    <Formik
+    initialValues={{
         email: "",
         username: "",
         password: "",
@@ -15,10 +19,8 @@ const RegisterContainer = withFormik({
         birthdate: "",
         sex: "",
         redditUsername: ""
-    }),
-
-    // Form Validation
-    validate: async values => {
+    }}
+    validate={async values => {
         const errors = {};
         
         // required fields
@@ -40,9 +42,23 @@ const RegisterContainer = withFormik({
         if (values.username && values.username.length > 20) {
             errors.username = "Username must be maximum 20 characters";
         }
-        const usernameResponse = await axios.get(`/checkField?username=${values.username}`)
-        if (usernameResponse.data && usernameResponse.data.fieldExists) {
-            errors.username = `${values.username} is already taken`;
+        else if (values.username) {
+            
+            // // old username validation (same error as this one)
+            // const usernameResponse = await axios.get(`/checkField?username=${values.username}`)
+            // if (usernameResponse.data && usernameResponse.data.fieldExists) {
+            //     errors.username = `${values.username} is already taken`;
+            // }
+
+            axios.get(`/checkField?username=${values.username}`)
+            .then(response => {
+                console.log("Username validation response", response);
+                if (response.data && response.data.fieldExists) {
+                    errors.username = `${values.username} is already taken`;
+                }
+            })
+            .catch(error => console.log("Email validation error", error))
+    
         }
         
         // password
@@ -54,38 +70,63 @@ const RegisterContainer = withFormik({
         if (values.email && ! /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
             errors.email = "Invalid email address";    
         }
-        const emailResponse = await axios.get(`/checkField?email=${values.email}`);
-        
-        if (emailResponse.data && emailResponse.data.fieldExists) {
-            errors.email = `An account already exists with the email ${values.email}`;
+        else if (values.email) {
+            
+            // // old validation (this didnt work too)
+            // const emailResponse = await axios.get(`/checkField?email=${values.email}`);
+            // console.log(emailResponse)
+            // if (emailResponse.data && emailResponse.data.fieldExists) {
+            //     errors.email = `An account already exists with the email ${values.email}`;
+            // }
+            //
+
+            axios.get(`/checkField?email=${values.email}`)
+            .then(response => {
+                console.log("Email validation response", response);
+                if (response.data && response.data.fieldExists) {
+                    errors.email = `An account already exists with the email ${values.email}`;
+                }
+            })
+            .catch(error => console.log("Email validation error", error))
         }
         
         // add code here for asyncValidation
         return errors;
-    },
-    
-    // handleSubmit code
-    handleSubmit: async (values, { setSubmitting }) => {
-        await new Promise(resolve => setTimeout(resolve, 500));
-        setSubmitting(false);
+    }}
+    onSubmit = {async (values, { setSubmitting }) => {
+        //await new Promise(resolve => setTimeout(resolve, 500));
         
         // save to mongodb
         axios.post('/registerUser', values)
         .then(response=> {
             console.log("Register User success ", response);
+            props.dispatchLoginUser({
+                "username": values.username,
+                "password": values.password
+            })
+            console.log("Logged in after Registration");
         })
         .catch(error => {
             console.error("Register user failed ", error);
         })
 
+        setSubmitting(false);
         console.log("Register form submmitted ", values)
-        
-        // route to homepage
-        history.push('/');
-        // dispatch fetchposts here to rerender Subreddit component (mimic ComponentDidUpdate)
-    },
-    
-    displayName: "RegisterForm"
-})(Register)
+    }}
+    >
+        <div>
+            <Register></Register>
+            {props.loginInfo.isLogged ? <Redirect push to="/" /> : null}
+        </div>
+    </Formik>
+)
 
-export default RegisterContainer;
+const mapStateToProps = state => ({
+    loginInfo: state.login
+})
+
+const mapDispatchToProps = dispatch => ({
+    dispatchLoginUser: values => dispatch(loginUser(values))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterContainer);
