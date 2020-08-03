@@ -16,7 +16,7 @@ const PostContainer = props => {
 
     return (
         <div>
-            <Post key={postId} postData={postData} />
+            <Post showAll={props.showAll} key={postId} postData={postData} />
         </div>
     )
 }

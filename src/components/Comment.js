@@ -5,6 +5,7 @@ import SubComment from './SubComment';
 import { getTimeDiff, toggleDiv, convertHoursToText, urlsInText } from '../helpers';
 
 const Comment = props => {
+    // console.log("Comment props", props);
     const commentData = props.commentData;
     // console.log("Comment Component - commentData:",commentData);
     if (commentData) {
@@ -16,7 +17,7 @@ const Comment = props => {
 
         // replies
         let subComments = []
-        if (commentData.replies.length > 0) {
+        if (props.showAll && commentData.replies.length > 0) {
             commentData.replies.forEach(element => {
                 subComments.push(<SubComment key={element.id} subCommentData={element} />)
             })    

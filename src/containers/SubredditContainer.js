@@ -35,7 +35,7 @@ function SubredditContainer(props) {
 
     let arrPosts = [];
     for (let i=0; i < props.allPosts.length; i++) {
-        arrPosts.push(<PostContainer key={i} postId={props.allPosts[i].reddit_id} />)
+        arrPosts.push(<PostContainer showAll={props.showAll} key={i} postId={props.allPosts[i].reddit_id} />)
     }
 
     return (

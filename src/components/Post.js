@@ -77,7 +77,7 @@ function Post(props) {
                     <a className="postcommenticon far fa-comment pt-1" href="#toggleComments" onClick={() => toggleDiv(commentsDivId)} />
                 </div>
                 <div id={commentsDivId} style={{display: "none"}}>
-                    {<CommentContainer postId={postData.reddit_id} />}
+                    {<CommentContainer showAll={props.showAll} postId={postData.reddit_id} />}
                 </div>
                 {/* Set target of postBody anchor tags to _blank */}
                 {document.querySelectorAll("#postbody a").forEach(a => a.setAttribute("target", "_blank"))}

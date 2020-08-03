@@ -21,7 +21,7 @@ const CommentContainer = props => {
 
     let allCommentDivs = []
     commentData.forEach(element => {
-        allCommentDivs.push(<Comment key={element.id} commentData={element} />);
+        allCommentDivs.push(<Comment showAll={props.showAll} key={element.id} commentData={element} />);
     });
     return (
         <div style={{display: "block"}}>
