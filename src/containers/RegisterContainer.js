@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Formik } from 'formik';
 import { loginUser } from '../middleware';
 import { Redirect } from 'react-router-dom';
-// change this to loginUser
 
 const RegisterContainer = props => (
 
@@ -34,7 +33,7 @@ const RegisterContainer = props => (
         ]
         requiredFields.forEach(field => {
             if (!values[field]) {
-                errors[field] = 'Required'
+                errors[field] = 'Required';
             }
         })
     
@@ -44,21 +43,12 @@ const RegisterContainer = props => (
         }
         else if (values.username) {
             
-            // // old username validation (same error as this one)
-            // const usernameResponse = await axios.get(`/checkField?username=${values.username}`)
-            // if (usernameResponse.data && usernameResponse.data.fieldExists) {
-            //     errors.username = `${values.username} is already taken`;
-            // }
-
-            axios.get(`/checkField?username=${values.username}`)
-            .then(response => {
-                console.log("Username validation response", response);
-                if (response.data && response.data.fieldExists) {
-                    errors.username = `${values.username} is already taken`;
-                }
-            })
-            .catch(error => console.log("Email validation error", error))
-    
+            const usernameResponse = await axios.get(`/checkField?username=${values.username}`)
+            // console.log("Username validation response", usernameResponse)
+            if (usernameResponse.status=== 200 && usernameResponse.data && usernameResponse.data.fieldExists) {
+                console.log("I am here");
+                errors.username = `${values.username} is already taken`;
+            }    
         }
         
         // password
@@ -72,30 +62,18 @@ const RegisterContainer = props => (
         }
         else if (values.email) {
             
-            // // old validation (this didnt work too)
-            // const emailResponse = await axios.get(`/checkField?email=${values.email}`);
-            // console.log(emailResponse)
-            // if (emailResponse.data && emailResponse.data.fieldExists) {
-            //     errors.email = `An account already exists with the email ${values.email}`;
-            // }
-            //
-
-            axios.get(`/checkField?email=${values.email}`)
-            .then(response => {
-                console.log("Email validation response", response);
-                if (response.data && response.data.fieldExists) {
-                    errors.email = `An account already exists with the email ${values.email}`;
-                }
-            })
-            .catch(error => console.log("Email validation error", error))
+            // to use promise, use callback before axios.get with errors as argument to update errors and return it at the end
+            const emailResponse = await axios.get(`/checkField?email=${values.email}`);
+            // console.log("Email Validation Response", emailResponse)
+            if (emailResponse.status === 200 && emailResponse.data && emailResponse.data.fieldExists) {
+                errors.email = `An account already exists with the email ${values.email}`;
+            }
+            
         }
         
-        // add code here for asyncValidation
         return errors;
     }}
-    onSubmit = {async (values, { setSubmitting }) => {
-        //await new Promise(resolve => setTimeout(resolve, 500));
-        
+    onSubmit = {async (values, { setSubmitting }) => { 
         // save to mongodb
         axios.post('/registerUser', values)
         .then(response=> {

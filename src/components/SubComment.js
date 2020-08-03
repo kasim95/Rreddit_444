@@ -21,7 +21,7 @@ function SubComment(props) {
         return (
             <Container className="bg-dark variant-dark subCommentDiv pt-1">
                 <a href="#hide" className="subCommentHeaderAnchor" onClick={() => toggleDiv(subCommentBodyDivId)}>
-                    <div className="subCommentHeaderDiv">
+                    <div className="subCommentHeaderDiv">             
                         <a
                         className="subCommentAuthor"
                         href={`https://reddit.com/user/${props.subCommentData.author}`}

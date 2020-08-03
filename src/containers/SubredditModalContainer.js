@@ -9,7 +9,12 @@ const SubredditModalContainer = props => {
         e.preventDefault();
         const newSubreddit = document.getElementById("subredditName").value;
         console.log("Submit button ", newSubreddit)
-        props.dispatchSetSubreddit(newSubreddit);
+        if (newSubreddit) {
+            props.dispatchSetSubreddit(newSubreddit);
+        }
+        else {
+            props.dispatchHideSubredditModal();
+        }
     }
 
     return (

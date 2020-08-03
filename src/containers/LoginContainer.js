@@ -35,7 +35,6 @@ const LoginContainer = props => (
     }}
     onSubmit={
         async (values, { setSubmitting }) => {
-            console.log("I am inside Login onSubmit")
             props.dispatchLoginUser(values);
             
             setSubmitting(false);

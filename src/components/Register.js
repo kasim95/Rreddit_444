@@ -25,8 +25,8 @@ const Register = props => {
     } = props;
     */
     const values = getIn(props.formik.values);
-    const touched = getIn(props.formik.values);
-    const errors = getIn(props.formik.dirty);
+    const touched = getIn(props.formik.touched);
+    const errors = getIn(props.formik.errors);
     const dirty = getIn(props.formik.dirty);
     const isSubmitting = getIn(props.formik.isSubmitting);
     const handleChange = getIn(props.formik.handleChange);
@@ -274,7 +274,7 @@ const Register = props => {
                         </div>
                     </div>
                     <div className="row justify-content-end m-0 p-2">                            
-                    Already have an account?<Link href="/login" className="pl-1">Log In</Link>
+                    Already have an account?<Link to="/login" className="pl-1">Log In</Link>
                     </div>
                 </div>
             </div>

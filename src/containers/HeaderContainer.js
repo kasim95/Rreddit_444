@@ -58,7 +58,7 @@ export const HeaderContainer = props => {
                 <SubredditModalContainer />
                 <Nav.Link href="#subreddit" 
                         id="changeSubreddit" 
-                        onClick={() => props.dispatchShowSubredditModal()}
+                        onClick={event => props.dispatchShowSubredditModal()}
                 >
                     {"r/"+props.subreddit}
                 </Nav.Link>
