@@ -27,6 +27,7 @@ export const extractPostFromChildren = responseChildren => {
                 "author": child.data.author,
                 "created_utc": child.data.created_utc,
                 "id": counter++,
+                "media": child.data.media,
                 "name": child.data.name,
                 "num_comments": child.data.num_comments,
                 "over_18": child.data.over_18,

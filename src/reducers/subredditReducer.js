@@ -1,6 +1,6 @@
 import * as actionTypes from '../actionTypes'
 
-const subredditReducer = (state="csuf", action)  => {
+const subredditReducer = (state="funny", action)  => {
     switch(action.type) {
         case actionTypes.SET_SUBREDDIT:
             return action.subreddit;

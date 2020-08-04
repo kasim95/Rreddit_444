@@ -4,7 +4,6 @@ import { Container } from 'react-bootstrap';
 import CommentContainer from '../containers/CommentContainer';
 import { getTimeDiff, convertHoursToText, toggleDiv, urlsInText } from '../helpers';
 
-
 function Post(props) {
     const postData = props.postData;
     
@@ -31,17 +30,64 @@ function Post(props) {
 
     // get media in post (either image or url)
     const PostMedia = props => {
+
+        // video / video and url
+        // audio doesnt work (Audio GET request gives Access Denied error)
+        if (props.media && props.media.reddit_video) {
+            // let videoUrlarr = props.media.reddit_video.fallback_url.split('/');
+            // videoUrlarr[videoUrlarr.length - 1] = "audio";
+            // const audioUrl = videoUrlarr.join('/');
+
+            if (props.url.includes('v.redd.it')) {
+                return (
+                    <div className="postMediaDiv">
+                        <video id="postMediaVideo" className="postMediaVideo" controls muted>
+                            <source src={props.media.reddit_video.fallback_url} />
+                            {/*
+                            <audio id="postMediaAudio" controls>
+                                <source src={audioUrl} type="audio/mpeg"/>
+                            </audio>
+                            */}
+                        </video>
+                    </div>
+                )
+            }
+            else {
+                return (
+                    <div>
+                        <div className="postMediaDiv">
+                            <video id="postMediaVideo" className="postMediaVideo" controls>
+                                <source src={props.media.reddit_video.fallback_url} />
+                                {/*
+                                <audio id="postMediaAudio" controls>
+                                    <source src={audioUrl} type="audio/mpeg"/>
+                                </audio>
+                                */}
+                            </video>
+                        </div>
+                        <a className="posturl" href={props.url } target="_blank" rel="noopener noreferrer" >
+                            <div className="far fa-share-square" rel="noopener noreferrer" /> 
+                            {" "+filterUrl(props.url).slice(0, 24)+"..."}
+                        </a>
+                    </div>
+                )
+            }
+        }
+
+        // image
         const imgExtensions = ['.gif', '.png', '.jpg', '.jpeg'];
 
         for (let i=0; i<imgExtensions.length; i++) {
             if (props.url.includes(imgExtensions[i])) {
                 return (
-                    <div className="postMedia">
+                    <div className="postMediaDiv">
                         <img className="postMediaImage" src={props.url} alt="" />
                     </div>
                 )
             }
         }
+
+        // just url
         return (
             <a className="posturl" href={props.url } target="_blank" rel="noopener noreferrer" >
                 <div className="far fa-share-square" rel="noopener noreferrer" /> 
@@ -80,7 +126,7 @@ function Post(props) {
                 </div>
                 <div className="postbodyDiv pb-1 mb-1 mt-1">
                     {<p id="postbody" className="postbody" dangerouslySetInnerHTML={{ __html: postBodyText}}></p>}
-                    <PostMedia url={postData.url} />
+                    <PostMedia url={postData.url} media={postData.media}/>
                     {/* post body url here */}
                 </div>
                 <div className="postfooterDiv mt-1">
@@ -93,6 +139,18 @@ function Post(props) {
                 </div>
                 {/* Set target of postBody anchor tags to _blank */}
                 {document.querySelectorAll("#postbody a").forEach(a => a.setAttribute("target", "_blank"))}
+                
+                {/* Sync audio and video playbackk */}
+                {/*
+                    document.getElementById("postMediaVideo") ? 
+                    document.getElementById("postMediaVideo").onplay = () => document.getElementById("postMediaAudio").play() :
+                    null
+                */}
+                {/*
+                    document.getElementById("postMediaVideo") ?
+                    document.getElementById("postMediaVideo").onpause = () => document.getElementById("postMediaAudio").pause() :
+                    null
+                */}
             </Container>
         )
     }

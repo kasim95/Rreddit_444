@@ -1,12 +1,15 @@
 .postDiv {
     border: 1px dotted #000000;
     box-shadow: 5px 5px 3px gray;
+    z-index: -1;
+    overflow: hidden;
 }
 
 .postheaderDiv {
     font-size: 12px;
     border-bottom: 1px solid #000000;
 }
+
 
 a.postauthor {
     text-decoration: none;
@@ -68,15 +71,22 @@ a.postredditicon:active {
     color:  silver;
 }
 
-.postMedia {
+.postMediaDiv {
     display: block;
-    align-content: center;
     margin: 0 auto;
     text-align: center;
+    align-content: center;
+}
+
+.postMediaVideo {
+    text-align: center;
+    height: 20rem;
+    max-width: 80%;
 }
 
 .postMediaImage {
     width: 50%;
+    margin: 0px;
 }
 
 a.posturl {
@@ -100,6 +110,7 @@ a.posturl:visited {
 .postfooterDiv {
     font-size: 15px;
     border-top: 0.5px solid #000000;
+    display: block;
 }
 
 .postvoteicon {
