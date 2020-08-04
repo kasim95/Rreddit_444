@@ -68,6 +68,17 @@ a.postredditicon:active {
     color:  silver;
 }
 
+.postMedia {
+    display: block;
+    align-content: center;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.postMediaImage {
+    width: 50%;
+}
+
 a.posturl {
     font-size: 10px;
     text-decoration: none;

@@ -26,23 +26,38 @@ function Post(props) {
         return result;
     }
 
-    // convert links in text to anchors
-    // const urlsInText = text => {
-    //     if (!text) return text;
-    //     else if (text === "null") return "";
-        
-    //     return decodeHTMLEntities(text);
-    // }
+    // convert text to links and formatting
     const postBodyText = urlsInText(postData.selftext_html);
+
+    // get media in post (either image or url)
+    const PostMedia = props => {
+        const imgExtensions = ['.gif', '.png', '.jpg', '.jpeg'];
+
+        for (let i=0; i<imgExtensions.length; i++) {
+            if (props.url.includes(imgExtensions[i])) {
+                return (
+                    <div className="postMedia">
+                        <img className="postMediaImage" src={props.url} alt="" />
+                    </div>
+                )
+            }
+        }
+        return (
+            <a className="posturl" href={props.url } target="_blank" rel="noopener noreferrer" >
+                <div className="far fa-share-square" rel="noopener noreferrer" /> 
+                {" "+filterUrl(props.url).slice(0, 24)+"..."}
+            </a>
+        )
+    }
 
     // calculate time when the post was created
     let postHeaderTime = convertHoursToText(getTimeDiff(postData.created_utc));
-
+    
     // todo: separate Post Header, Body and Footer into individual components
     // todo: Same for Comment Components too
     if (postData) {
         return (
-            <Container className="bg-dark text-white p-2 rounded m-2 postDiv">
+            <Container className="bg-dark text-white p-2 rounded m-3 postDiv">
                 <div className="postheaderDiv pb-3 mb-1">
                     {/*Posted by <a className="postauthor" href={"https://reddit.com/user/"+postData.author} target="_blank" rel="noopener noreferrer" >{postData.author}</a> <small>{Math.floor((currentTimeUTC - postData.created_utc) / (60 * 60))} hours ago </small>*/}
                     Posted by 
@@ -65,11 +80,8 @@ function Post(props) {
                 </div>
                 <div className="postbodyDiv pb-1 mb-1 mt-1">
                     {<p id="postbody" className="postbody" dangerouslySetInnerHTML={{ __html: postBodyText}}></p>}
-                    <a className="posturl" href={postData.url } target="_blank" rel="noopener noreferrer" >
-                        <div className="far fa-share-square" rel="noopener noreferrer" /> 
-                        {/*" "+postData.url.slice(12,22+12)+"..."*/}
-                        {" "+filterUrl(postData.url).slice(0, 24)+"..."}
-                    </a>
+                    <PostMedia url={postData.url} />
+                    {/* post body url here */}
                 </div>
                 <div className="postfooterDiv mt-1">
                     <div className="postvoteicon fas fa-arrow-circle-up fa-x" /> <small>{postData.upvotes - postData.downvotes}</small>{"   "} 
