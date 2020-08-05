@@ -159,6 +159,20 @@ export const urlsInText = text => {
     return decodeHTMLEntities(text);
 }
 
+
+// remove https, http and www from url for display
+export const filterUrl = url => {
+    let result = url;
+    if (result.split('//').length > 1) {
+        result = result.split("//")[1]
+    }
+    if (result.split(".")[0] === "www") {
+        result = result.split(".").slice(1, result.length).join(".");
+    }
+    return result;
+}
+
+
 // Convert links in text to anchor tags
 // THIS FUNCTION IS NOT USED (CAN DELETE)
 // https://stackoverflow.com/questions/37684/how-to-replace-plain-urls-with-links

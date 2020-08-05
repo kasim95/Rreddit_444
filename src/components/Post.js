@@ -2,145 +2,165 @@ import './Post.css'
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import CommentContainer from '../containers/CommentContainer';
-import { getTimeDiff, convertHoursToText, toggleDiv, urlsInText } from '../helpers';
+import { getTimeDiff, convertHoursToText, toggleDiv, urlsInText, filterUrl } from '../helpers';
 
 function Post(props) {
-    const postData = props.postData;
-    
-    // commentsDivId for showcomments link
-    let commentsDivId = "subCommentsDiv_";
-    if (postData) {
-        commentsDivId = "subCommentsDiv_"+postData.reddit_id;
-    }
-
-    // remove https, http and www from url for display
-    const filterUrl = url => {
-        let result = url;
-        if (result.split('//').length > 1) {
-            result = result.split("//")[1]
-        }
-        if (result.split(".")[0] === "www") {
-            result = result.split(".").slice(1, result.length).join(".");
-        }
-        return result;
-    }
-
-    // convert text to links and formatting
-    const postBodyText = urlsInText(postData.selftext_html);
-
-    // get media in post (either image or url)
-    const PostMedia = props => {
-
-        // video / video and url
-        // audio doesnt work (Audio GET request gives Access Denied error)
-        if (props.media && props.media.reddit_video) {
-            // let videoUrlarr = props.media.reddit_video.fallback_url.split('/');
-            // videoUrlarr[videoUrlarr.length - 1] = "audio";
-            // const audioUrl = videoUrlarr.join('/');
-
-            if (props.url.includes('v.redd.it')) {
-                return (
-                    <div className="postMediaDiv">
-                        <video id="postMediaVideo" className="postMediaVideo" controls muted>
-                            <source src={props.media.reddit_video.fallback_url} />
-                            {/*
-                            <audio id="postMediaAudio" controls>
-                                <source src={audioUrl} type="audio/mpeg"/>
-                            </audio>
-                            */}
-                        </video>
+    if (props.postData) {
+        // separate commentDivId for each Post Comment (used in PostFooter and PostComments)
+        const commentsDivId = "subCommentsDiv_" + props.postData.reddit_id;
+            
+        
+        // Post Header
+        const PostHeader = props => {
+            // calculate time when the post was created
+            let postHeaderTime = convertHoursToText(getTimeDiff(props.postData.created_utc));
+            return (
+                <div className="postheaderDiv pb-3 mb-1">
+                    Posted by 
+                    <a 
+                    className="postauthor pl-1" 
+                    href={"https://reddit.com/user/"+props.postData.author} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    >
+                        {props.postData.author}
+                    </a> 
+                    <div className="pl-1 d-inline-block">
+                        <small>
+                            {postHeaderTime}
+                        </small>
                     </div>
-                )
-            }
-            else {
-                return (
-                    <div>
-                        <div className="postMediaDiv">
-                            <video id="postMediaVideo" className="postMediaVideo" controls>
-                                <source src={props.media.reddit_video.fallback_url} />
-                                {/*
-                                <audio id="postMediaAudio" controls>
-                                    <source src={audioUrl} type="audio/mpeg"/>
-                                </audio>
-                                */}
-                            </video>
-                        </div>
+
+                    {/* eslint-disable-next-line */}
+                    <a 
+                    className="postredditicon fab fa-reddit fa-2x float-right" 
+                    href={"https://www.reddit.com"+props.postData.permalink} 
+                    target="_blank" 
+                    rel="noopener noreferrer" />
+                </div>
+            )
+        }
+
+        const PostTitle = props => (
+            <div className="posttitleDiv">
+                <p className="posttitle">{props.postData.title}</p>
+            </div>
+        )
+        
+        // Post Media Subcomponent
+        const PostMedia = props => {
+
+            // Post Url Subcomponent
+            const PostUrl = props => {
+                if (props.url) {
+                    return (
                         <a className="posturl" href={props.url } target="_blank" rel="noopener noreferrer" >
                             <div className="far fa-share-square" rel="noopener noreferrer" /> 
                             {" "+filterUrl(props.url).slice(0, 24)+"..."}
                         </a>
-                    </div>
-                )
+                    )
+                }
+                else return null;
             }
-        }
 
-        // image
-        const imgExtensions = ['.gif', '.png', '.jpg', '.jpeg'];
-
-        for (let i=0; i<imgExtensions.length; i++) {
-            if (props.url.includes(imgExtensions[i])) {
+            // Post Media Video Subcomponent
+            const PostMediaVideo = props => {
+                // // video / video and url
+                // // audio doesnt work (Audio GET request gives Access Denied error)
+                // let videoUrlarr = props.media.reddit_video.fallback_url.split('/');
+                // videoUrlarr[videoUrlarr.length - 1] = "audio";
+                // const audioUrl = videoUrlarr.join('/');
                 return (
-                    <div className="postMediaDiv">
-                        <img className="postMediaImage" src={props.url} alt="" />
-                    </div>
+                    <video id="postMediaVideo" className="postMediaVideo" controls muted>
+                        <source src={props.media.reddit_video.fallback_url} />
+                        {/*
+                        <audio id="postMediaAudio" controls>
+                            <source src={audioUrl} type="audio/mpeg"/>
+                        </audio>
+                        */}
+                    </video>
                 )
             }
+
+            const PostMediaImage = props => (
+                <div className="postMediaDiv">
+                    <img className="postMediaImage" src={props.url} alt="" />
+                </div>
+            )
+            
+            const imgExtensions = ['.gif', '.png', '.jpg', '.jpeg'];
+            if (props.media && props.media.reddit_video) {
+                // video
+                if (props.url.includes('v.redd.it')) {
+                    return (
+                        <div className="postMediaDiv">
+                            <PostMediaVideo media={props.media} />
+                        </div>
+                    )
+                }
+                else {
+                    // video and url
+                    return (
+                        <div>
+                            <PostMediaVideo media={props.media} />
+                            <PostUrl url={props.url} />
+                        </div>
+                    )
+                }
+            }
+            else if (props.url)
+            // image
+                for (let i=0; i<imgExtensions.length; i++) {
+                    if (props.url.includes(imgExtensions[i])) {
+                        return (
+                            <PostMediaImage url={props.url} />
+                        )
+                    }
+                }
+
+            // if no video or image just return url
+            return (
+                <PostUrl url={props.url} />
+            )
         }
 
-        // just url
-        return (
-            <a className="posturl" href={props.url } target="_blank" rel="noopener noreferrer" >
-                <div className="far fa-share-square" rel="noopener noreferrer" /> 
-                {" "+filterUrl(props.url).slice(0, 24)+"..."}
-            </a>
-        )
-    }
-
-    // calculate time when the post was created
-    let postHeaderTime = convertHoursToText(getTimeDiff(postData.created_utc));
-    
-    // todo: separate Post Header, Body and Footer into individual components
-    // todo: Same for Comment Components too
-    if (postData) {
-        return (
-            <Container className="bg-dark text-white p-2 rounded m-3 postDiv">
-                <div className="postheaderDiv pb-3 mb-1">
-                    {/*Posted by <a className="postauthor" href={"https://reddit.com/user/"+postData.author} target="_blank" rel="noopener noreferrer" >{postData.author}</a> <small>{Math.floor((currentTimeUTC - postData.created_utc) / (60 * 60))} hours ago </small>*/}
-                    Posted by 
-                    <a 
-                    className="postauthor" 
-                    href={"https://reddit.com/user/"+postData.author} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    >
-                        {" "+postData.author}
-                    </a> 
-                    <small>
-                        {" "+postHeaderTime}
-                    </small>
-                    {/* eslint-disable-next-line */}
-                    <a className="postredditicon fab fa-reddit fa-2x float-right" href={"https://www.reddit.com"+postData.permalink} target="_blank" rel="noopener noreferrer" />
-                </div>
-                <div className="posttitleDiv">
-                    <p className="posttitle">{postData.title}</p>
-                </div>
+        const PostBody = props => {
+            // convert text to links and formatting
+            const postBodyText = urlsInText(props.postData.selftext_html);
+            return (
                 <div className="postbodyDiv pb-1 mb-1 mt-1">
                     {<p id="postbody" className="postbody" dangerouslySetInnerHTML={{ __html: postBodyText}}></p>}
-                    <PostMedia url={postData.url} media={postData.media}/>
+                    <PostMedia url={props.postData.url} media={props.postData.media}/>
                     {/* post body url here */}
                 </div>
-                <div className="postfooterDiv mt-1">
-                    <div className="postvoteicon fas fa-arrow-circle-up fa-x" /> <small>{postData.upvotes - postData.downvotes}</small>{"   "} 
-                    {/* eslint-disable-next-line */}
-                    <a className="postcommenticon far fa-comment pt-1" href="#toggleComments" onClick={() => toggleDiv(commentsDivId)} />
-                </div>
+            )
+        }
+
+        const PostFooter = props => (
+            <div className="postfooterDiv mt-1">
+                <div className="postvoteicon fas fa-arrow-circle-up fa-x" /> <small>{props.postData.upvotes - props.postData.downvotes}</small>
+                {/* eslint-disable-next-line */}
+                <a className="postcommenticon far fa-comment pt-1 pl-1" href="#toggleComments" onClick={() => toggleDiv(props.commentsDivId)} />
+            </div>
+        )
+
+        return (
+            <Container className="bg-dark text-white p-2 rounded m-3 postDiv">
+                <PostHeader postData={props.postData} />
+                <PostTitle postData={props.postData} />
+                <PostBody postData={props.postData} />
+                <PostFooter postData={props.postData} commentsDivId={commentsDivId} />
+                
+                {/* dnt call imported React components inside defined subcomponents (redundant commentcontainer calls) */}
                 <div id={commentsDivId} style={{display: "none"}}>
-                    {<CommentContainer showAll={props.showAll} postId={postData.reddit_id} />}
+                    {<CommentContainer showAll={props.showAll} postId={props.postData.reddit_id} commentsDivId={commentsDivId} />}
                 </div>
-                {/* Set target of postBody anchor tags to _blank */}
+                
+                
+                {/* PostBody: Set target of postBody anchor tags to _blank */}
                 {document.querySelectorAll("#postbody a").forEach(a => a.setAttribute("target", "_blank"))}
                 
-                {/* Sync audio and video playbackk */}
+                {/* PostMedia: Sync audio and video playback in Post Media */}
                 {/*
                     document.getElementById("postMediaVideo") ? 
                     document.getElementById("postMediaVideo").onplay = () => document.getElementById("postMediaAudio").play() :
@@ -155,7 +175,9 @@ function Post(props) {
         )
     }
     else {
-        return (<h5>No Post data loaded</h5>)
+        return (
+        <h5>No Post data loaded</h5>
+        )
     }
 }
 export default Post;
