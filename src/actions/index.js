@@ -47,8 +47,8 @@ export const fetchCommentsFailure = (postId, error) => {
 }
 
 // Login Actions (use only if required)
-export const logIn = () => ({ type: actionTypes.LOG_IN });
-export const logOut =  () => ({ type: actionTypes.LOG_OUT });
+// export const logIn = () => ({ type: actionTypes.LOG_IN });
+// export const logOut =  () => ({ type: actionTypes.LOG_OUT });
 
 // Filter Post Actions
 export const filterBest = () => {
@@ -125,5 +125,12 @@ export const loginFailure = error => {
 export const logout = () => {
     return ({
         type: actionTypes.LOGOUT
+    })
+}
+
+export const setNumPosts = num => {
+    return ({
+        type: actionTypes.SET_NUMPOSTS,
+        numPosts: num
     })
 }

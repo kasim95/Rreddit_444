@@ -24,11 +24,14 @@ export const FILTER_NEW = "FILTER_NEW";
 export const FILTER_TOP = "FILTER_TOP";
 
 // actionTypes for logUser (discard later)
-export const LOG_IN = "LOG_IN";
-export const LOG_OUT = "LOG_OUT";
+// export const LOG_IN = "LOG_IN";
+// export const LOG_OUT = "LOG_OUT";
 
 // actionTypes for loginUser
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOGOUT = "LOGOUT";
+
+// actionTypes for setNumPosts
+export const SET_NUMPOSTS = "SET_NUMPOSTS";

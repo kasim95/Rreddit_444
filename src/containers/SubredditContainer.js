@@ -18,8 +18,8 @@ function SubredditContainer(props) {
     
     //const url = `https://www.reddit.com/r/${useSelector(state => state.subreddit)}/${useSelector(state => state.filter)}/.json?`;
     const url = `https://www.reddit.com/r/${props.subreddit}/${props.filter}/.json?`;
-    //const params = "limit=30";
-    const params = "limit=10";
+    //const params = "limit=10";
+    const params = `limit=${props.numPosts}`;
     const fullUrl = url+params;
     
     // useEffect is used to mimic ComponentDidMount lifecycle method
@@ -31,7 +31,7 @@ function SubredditContainer(props) {
     const fetchPostsDispatch = fullUrl => props.fetchPosts(fullUrl);
     // disable useEffect missing dependancies warning
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => fetchPostsDispatch(fullUrl), [props.subreddit, props.filter])
+    useEffect(() => fetchPostsDispatch(fullUrl), [props.subreddit, props.filter, props.numPosts]);
 
     let arrPosts = [];
     for (let i=0; i < props.allPosts.length; i++) {
@@ -58,6 +58,7 @@ const mapStateToProps = function(state) {
         //logged: state.logged, //do not include logged here as using props in useEffect dependancies calls fetchPosts infinite times
         subreddit: state.subreddit,
         filter: state.filter,
+        numPosts: state.numPosts,
         allPosts: result
     }
 }
