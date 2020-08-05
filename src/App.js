@@ -11,7 +11,8 @@ import LoginContainer from './containers/LoginContainer';
 
 function App(props) {
 
-    // showAll in props controls if all Comments are shown or not
+    // showAll in props controls if all Comments are shown or not 
+    // (true for subComments, false for only top level comments)
     const passProps = {showAll: false};
     return (
         <Router>

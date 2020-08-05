@@ -1,7 +1,6 @@
 .postDiv {
     border: 1px dotted #000000;
     box-shadow: 5px 5px 3px gray;
-    z-index: -1;
     overflow: hidden;
 }
 
@@ -54,6 +53,12 @@ a.postredditicon:active {
     font-size: 20px;
 }
 
+.postbodyDiv {
+    box-sizing: border-box !important;
+    margin: 0px;
+    padding: 0px;
+}
+
 .postbody {
     font-size: 15px;
 }
@@ -72,10 +77,10 @@ a.postredditicon:active {
 }
 
 .postMediaDiv {
-    display: block;
-    margin: 0 auto;
     text-align: center;
     align-content: center;
+    box-sizing: border-box
+
 }
 
 .postMediaVideo {

@@ -42,16 +42,7 @@ export const HeaderContainer = props => {
         )
     }
 
-    // Change Subreddit
-    // const NavbarSubreddit = () => {
-    //     return (
-    //         <NavDropdown title="Subreddit" id="collasible-nav-dropdown">
-    //             <NavDropdown.Item href="#news">News</NavDropdown.Item>
-    //             <NavDropdown.Divider />
-    //             <NavDropdown.Item href="#addSubreddit">Add subreddit</NavDropdown.Item>
-    //         </NavDropdown>
-    //     )
-    // }
+    
     const NavbarSubreddit = () => {
         return (
             <div>

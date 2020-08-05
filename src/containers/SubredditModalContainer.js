@@ -42,7 +42,7 @@ const SubredditModalContainer = props => {
         <Modal
             centered
             show={props.showSubredditModal}
-            onHide={() => props.dispatchHideSubredditModal}
+            onHide={props.dispatchHideSubredditModal}
             backdrop="static"    
         >
             <Form id="changeSubredditForm" onSubmit={handleSubmit}>

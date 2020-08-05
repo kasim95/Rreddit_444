@@ -5,51 +5,49 @@ import SubComment from './SubComment';
 import { getTimeDiff, toggleDiv, convertHoursToText, urlsInText } from '../helpers';
 
 const Comment = props => {
-    // console.log("Comment props", props);
-    const commentData = props.commentData;
-    // console.log("Comment Component - commentData:",commentData);
-    if (commentData) {
+    
+    if (props.commentData) {
         // convert links in comment to anchors
-        const commentBodyText = urlsInText(commentData.body_html);
+        const commentBodyText = urlsInText(props.commentData.body_html);
 
         //time
-        const timeDiffText = convertHoursToText(getTimeDiff(commentData.created_utc));
+        const timeDiffText = convertHoursToText(getTimeDiff(props.commentData.created_utc));
 
         // replies
         let subComments = []
-        if (props.showAll && commentData.replies.length > 0) {
-            commentData.replies.forEach(element => {
+        if (props.showAll && props.commentData.replies.length > 0) {
+            props.commentData.replies.forEach(element => {
                 subComments.push(<SubComment key={element.id} subCommentData={element} />)
             })    
         }
 
         // Comment Header onClick event
         let commentBodyDivId = "commentBodyDiv_";
-        if (commentData) commentBodyDivId = "commentBodyDiv_"+commentData.id;
+        if (props.commentData) commentBodyDivId = "commentBodyDiv_"+props.commentData.id;
 
         return (
             <Container className="bg-dark text-white p-2 m-1 rounded commentDiv">
-                <a href="#hide" onClick={() => toggleDiv(commentBodyDivId)} className="commentHeaderAnchor">
-                    <div className="commentHeaderDiv">
-                        <a
-                        className="commentAuthor"
-                        href={`https://reddit.com/user/${commentData.author}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        >
-                            {commentData.author}
-                        </a>
+                {/*<a href="#hide" onClick={() => toggleDiv(commentBodyDivId)} className="commentHeaderAnchor">*/}
+                <div className="commentHeaderDiv" onClick={() => toggleDiv(commentBodyDivId)}>
+                    <a
+                    className="commentAuthor"
+                    href={`https://reddit.com/user/${props.commentData.author}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >
+                        {props.commentData.author}
+                    </a>
+                    <div className="pl-1 d-inline-block">
                         <small>
-                            {/* Add time in hours ago here*/}
-                            {" "+timeDiffText}
+                            {timeDiffText}
                         </small>
                     </div>
-                </a>
-                <div className="commentBodyDiv" id={"commentBodyDiv_"+commentData.id}>
+                </div>
+                {/*</a>*/}
+                <div className="commentBodyDiv" id={"commentBodyDiv_"+props.commentData.id}>
                     <div className="commentTextDiv">
                         {<p id="commentBodyText" className="commentBodyText" dangerouslySetInnerHTML={{ __html: commentBodyText}}></p>}
                     
-                        {/* commentData.body */}
                     </div>
                     <div className="commentSubCommentsDiv">
                         {subComments}
