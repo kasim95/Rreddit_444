@@ -249,7 +249,16 @@ app.get('/server', (req, res) => {
     console.log("/server endpoint called")
 })
 
+
+// // copy build and uncomment in prod
+// // Serve the client build
+// app.use(express.static( __dirname + "/build"));
+// app.get("*", function(req, res){
+//   res.sendFile(__dirname + "/build/index.html");
+// });
+
+
 // listen on port
-app.listen(PORT, () => {
+app.listen(4000, () => {
     console.log(`Rreddit 444 server listening on Port ${PORT}`)
 })

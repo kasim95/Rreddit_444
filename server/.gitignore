@@ -106,3 +106,5 @@ dist
 help.txt
 
 .env
+
+build/*

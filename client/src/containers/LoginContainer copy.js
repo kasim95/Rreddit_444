@@ -6,6 +6,8 @@ import axios from 'axios';
 import history from './history';
 // import { useHistory } from 'react-router-dom';
 
+// FILE NOT USED (JUST HERE FOR LATER CONSIDERATION IF IT BREAKS)
+
 const loginUser = user => {
     return function(dispatch) {
         dispatch(loginRequest(user));
@@ -71,7 +73,6 @@ const LoginContainer = withFormik({
         // call this code using a middleware
         axios.post('/loginUser', values)
         .then(res=> {
-            console.log("I am hereherehere ", res);
             if (res.data && res.data.status === 200) {
                 console.log("Login User success ", res);
                 
