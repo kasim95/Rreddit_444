@@ -1,0 +1,19 @@
+Install Nginx server
+
+edit file /etc/nginx/sites-enabled/default
+
+Change root value to 
+root /var/www/html;
+
+Change server name to
+server_name rreddit444.kasimp.tech;
+
+Copy rreddit444 to /var/www/rreddit444
+
+Start the server internally using node
+
+Serve the client on Nginx
+
+
+OR just follow this tutorial
+https://medium.com/@timmykko/deploying-create-react-app-with-nginx-and-ubuntu-e6fe83c5e9e7
