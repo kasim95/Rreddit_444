@@ -1,6 +1,7 @@
 const helpers = require('./helpers');
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 
 // Add .env variables in process.env
 require('dotenv').config();
@@ -12,6 +13,9 @@ const PORT = process.env.PORT;
 // parse incoming Post Request Object as Json
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+// append client build to serve client static files
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Configure MongoDB database connection
 // Using MongoDB Atlas Cloud Service with Cluster on AWS for NoSQL database
@@ -101,8 +105,8 @@ const checkFieldValueExistsDB = (key, value) => {
         return false;
     })
     .catch(err => {
-        console.log('checkFieldValueExistsDB failed', err);
-        // throw new Error("checkFieldValueExistsDB failed")
+        // console.log('checkFieldValueExistsDB failed', err);
+        console.log('checkFieldValueExistsDB failed');
         return false;
     })
 }
@@ -154,32 +158,26 @@ app.post('/registerUser', async (req, res) => {
     let values = helpers.getUserDataFromReq(req.body);
     
     const userExists = await checkFieldValueExistsDB(key="username", value=values.username);
-    console.log("userExists ", userExists);
     
     const emailExists = await checkFieldValueExistsDB(key="email", value=values.email);
-    console.log("emailExists ", emailExists);
             
     if (typeof(userExists) === Boolean && userExists) {
-        console.log("User Promise exists");
         responseBody["message"] = "Username already exists";
         responseBody["error"] = "Username already exists";
         res.status(409).send(responseBody);
     }
     else if (typeof(emailExists) === Boolean && emailExists) {
-        console.log("Email Promise exists");
         responseBody["message"] = "Email already exists";
         responseBody["error"] = "Email already exists";
         res.status(409).send(responseBody);
     }
     else if (!userExists && !emailExists) {
-        console.log("Adding user to db");
-
         const userPassword = await helpers.encryptPassword(req.body.password);
         values.password = userPassword;
         const user = new User(values);
-        console.log("User instance: ", user);
+        // console.log("User instance: ", user);
         await user.save(err => {
-            if (err) console.log("User save failed ", err);
+            if (err) console.log("User save failed ");
         });
         console.log("Used added to db");
         res.status(200).send();
@@ -214,12 +212,9 @@ app.post('/loginUser', async (req, res) => {
     const searchQuery = {
         "username": loginInfo.username
     }
-    console.log("Login searchQuery ", searchQuery)
     await User.findOne(searchQuery)
     .then(async value => {
-        console.log("Login success ", value);
         const comparison = await helpers.comparePasswords(loginInfo.password, value.password);
-        console.log("Password comparison result", comparison)
         responseBody["isLogged"] = comparison;
         if (comparison) {
             const userData = {
@@ -236,7 +231,8 @@ app.post('/loginUser', async (req, res) => {
         }
     })
     .catch(err => {
-        console.log("Login error ", err)
+        // console.log("Login error ", err)
+        console.log("Login error")
         responseBody["error"] = err;
         responseBody["message"] = "Some error occured";
         res.status(404).send(responseBody);
@@ -249,16 +245,12 @@ app.get('/server', (req, res) => {
     console.log("/server endpoint called")
 })
 
-
-// // copy build and uncomment in prod
-// // Serve the client build
-// app.use(express.static( __dirname + "/build"));
-// app.get("*", function(req, res){
-//   res.sendFile(__dirname + "/build/index.html");
-// });
-
+// serve client
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
 
 // listen on port
-app.listen(4000, () => {
+app.listen(PORT, () => {
     console.log(`Rreddit 444 server listening on Port ${PORT}`)
 })

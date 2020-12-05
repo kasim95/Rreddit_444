@@ -102,9 +102,4 @@ dist
 
 # TernJS port file
 .tern-port
-
 help.txt
-
-.env
-
-build/*
