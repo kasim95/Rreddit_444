@@ -38,7 +38,7 @@ const LoginContainer = props => (
             props.dispatchLoginUser(values);
             
             setSubmitting(false);
-            console.log("Login form submitted ", values)
+            // console.log("Login form submitted ", values)
         }
     }
     >

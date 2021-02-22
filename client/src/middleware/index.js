@@ -23,7 +23,7 @@ export const fetchPosts = (url) => {
                 
                 // parse Json to get posts as an array and dispatch Success action
                 let result = parseJson(response);
-                console.log('Output from parseJson is ', result)
+                // console.log('Output from parseJson is ', result)
                 dispatch(fetchPostsSuccess(result));
             }
             else {
@@ -64,7 +64,7 @@ export const fetchComments = (postId, url) => {
 
 export const loginUser = user => {
     return function(dispatch) {
-        console.log("I am inside loginUser dispatch fn");
+        // console.log("I am inside loginUser dispatch fn");
         dispatch(loginRequest(user));
 
         const loginUrl = "/loginUser";
@@ -85,7 +85,7 @@ export const loginUser = user => {
             }            
         })
         .catch(error => {
-            console.log('I am inside Post req .catch')
+            // console.log('I am inside Post req .catch')
             console.error("Login user failed ", error);
             dispatch(loginFailure(error));
         });
