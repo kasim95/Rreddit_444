@@ -19,9 +19,9 @@ function App(props) {
             <div className="App">
                 <HeaderContainer />
                 <Routes>
-                    <Route path="/" exact element={<SubredditContainer {...passProps} />} />
-                    <Route path="/register" exact element={<RegisterContainer />} />
-                    <Route path="/login" exact element={<LoginContainer />} />
+                    <Route path="/" element={<SubredditContainer {...passProps} />} />
+                    <Route path="/register" element={<RegisterContainer />} />
+                    <Route path="/login" element={<LoginContainer />} />
                 </Routes>
                 <Footer />
             </div>
