@@ -4,7 +4,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { Formik } from 'formik';
 import { loginUser } from '../middleware';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 const RegisterContainer = props => (
 
@@ -94,7 +94,7 @@ const RegisterContainer = props => (
     >
         <div>
             <Register></Register>
-            {props.loginInfo.isLogged ? <Redirect push to="/" /> : null}
+            {props.loginInfo.isLogged ? <Navigate to="/" replace /> : null}
         </div>
     </Formik>
 )

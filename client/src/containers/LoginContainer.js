@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 // import axios from 'axios';
 // import history from './history';
 // import { useHistory } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { loginUser } from '../middleware';
 
 const LoginContainer = props => (
@@ -44,7 +44,7 @@ const LoginContainer = props => (
     >
         <div>
         <Login />
-        {props.loginInfo.isLogged ? <Redirect push to="/" /> : null}
+        {props.loginInfo.isLogged ? <Navigate to="/" replace /> : null}
         </div>
     </Formik>
 )
