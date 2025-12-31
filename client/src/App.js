@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import SubredditContainer from './containers/SubredditContainer';
 import HeaderContainer from './containers/HeaderContainer';
 import Footer from './components/Footer';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import RegisterContainer from './containers/RegisterContainer';
 import LoginContainer from './containers/LoginContainer';
 
@@ -18,11 +18,11 @@ function App(props) {
         <Router>
             <div className="App">
                 <HeaderContainer />
-                <Switch>
-                    <Route path="/" exact render={() => <SubredditContainer {...passProps} />} />
-                    <Route path="/register" exact component={RegisterContainer} />
-                    <Route path="/login" exact component={LoginContainer} />
-                </Switch>
+                <Routes>
+                    <Route path="/" element={<SubredditContainer {...passProps} />} />
+                    <Route path="/register" element={<RegisterContainer />} />
+                    <Route path="/login" element={<LoginContainer />} />
+                </Routes>
                 <Footer />
             </div>
         </Router>    

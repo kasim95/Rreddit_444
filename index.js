@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 const uri = `mongodb+srv://${process.env.MDBUSERNAME}:${process.env.MDBPASSWORD}@cluster0.rfkby.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`;
 
 const connectDB = async () => {
-    await mongoose.connect(uri,{useUnifiedTopology: true, useNewUrlParser: true})
+    await mongoose.connect(uri)
     .then(
         () => {
             console.log("Connected to MDB");
