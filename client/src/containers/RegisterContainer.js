@@ -52,7 +52,7 @@ const RegisterContainer = props => (
         }
         
         // password
-        if (values.password && values.password.length < 8 && values.password.length > 16) {
+        if (values.password && (values.password.length < 8 || values.password.length > 16)) {
             errors.password = "Password must be between 8 and 16 characters in length";
         }
     
