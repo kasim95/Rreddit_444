@@ -8,9 +8,15 @@ const bcrypt = require('bcrypt');
 /** Number of bcrypt salt rounds. Higher values increase security but slow hashing. */
 const SALT_ROUNDS = 10;
 
-/** Minimum and maximum allowed password lengths. */
+/** Minimum allowed password length in characters. */
 const PASSWORD_MIN_LENGTH = 8;
-const PASSWORD_MAX_LENGTH = 72; // bcrypt truncates at 72 bytes
+/**
+ * Maximum allowed password length.
+ * bcrypt silently truncates input at 72 bytes.  This check is character-based;
+ * passwords with multi-byte UTF-8 characters may be truncated at fewer than
+ * 72 characters.  72 is a safe conservative upper bound for ASCII passwords.
+ */
+const PASSWORD_MAX_LENGTH = 72;
 
 /** Maximum allowed username length. */
 const USERNAME_MAX_LENGTH = 20;

@@ -16,8 +16,11 @@ const rateLimit = require('express-rate-limit');
 // Load environment variables from .env into process.env
 require('dotenv').config();
 
+/** Default port if the PORT environment variable is not set. */
+const DEFAULT_PORT = 5000;
+
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || DEFAULT_PORT;
 
 // ---------------------------------------------------------------------------
 // Security middleware
@@ -30,9 +33,17 @@ const PORT = process.env.PORT || 5000;
 app.use(helmet());
 
 /**
- * Rate-limit authentication endpoints to reduce brute-force risk.
- * Allows 20 requests per 15-minute window per IP address.
+ * Rate-limit for general routes (including static file serving).
+ * Allows 200 requests per 15-minute window per IP address.
+ * This protects the sendFile call from excessive filesystem reads.
  */
+const generalLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 200,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: 'Too many requests, please try again later.' }
+});
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 20,
@@ -48,7 +59,12 @@ const authLimiter = rateLimit({
 /** Parse JSON request bodies (e.g. POST /registerUser, POST /loginUser). */
 app.use(express.json());
 
-/** Parse URL-encoded request bodies with extended mode disabled (safer). */
+/**
+ * Parse URL-encoded request bodies.
+ * `extended: false` uses the simpler `querystring` library which only
+ * supports flat key/value pairs, preventing unexpected nested object
+ * payloads that could be abused with the `qs` library's deep-parse features.
+ */
 app.use(express.urlencoded({ extended: false }));
 
 // ---------------------------------------------------------------------------
@@ -154,15 +170,20 @@ const checkFieldValueExistsDB = (key, value) => {
 
     if (key === 'username') {
         if (value && helpers.checkUsername(value)) {
-            searchQuery[key] = value;
+            // Cast to string to prevent NoSQL operator injection (e.g. { $gt: "" })
+            searchQuery[key] = String(value);
         }
     } else if (key === 'email') {
         if (value && helpers.checkEmail(value)) {
-            searchQuery[key] = value;
+            // Cast to string to prevent NoSQL operator injection
+            searchQuery[key] = String(value);
         }
     } else {
-        // Generic field: ensure both key and value are present and non-null
-        if (key !== null && key !== undefined && value !== null && value !== undefined) {
+        // Generic field: ensure both key and value are present, non-null, and plain strings
+        if (
+            key !== null && key !== undefined && typeof key === 'string' &&
+            value !== null && value !== undefined && typeof value === 'string'
+        ) {
             searchQuery[key] = value;
         }
     }
@@ -320,7 +341,12 @@ app.post('/loginUser', authLimiter, async (req, res) => {
     }
 
     // Validate username format before querying the database
-    const username = helpers.checkUsername(req.body.username) ? req.body.username : null;
+    // Reject non-string values to prevent NoSQL operator injection (e.g. { $gt: "" })
+    if (typeof req.body.username !== 'string' || typeof req.body.password !== 'string') {
+        responseBody.message = 'Username and password must be strings';
+        return res.status(400).json(responseBody);
+    }
+    const username = helpers.checkUsername(req.body.username) ? String(req.body.username) : null;
     if (!username) {
         responseBody.message = 'Invalid username format';
         return res.status(400).json(responseBody);
@@ -374,8 +400,9 @@ app.get('/server', (req, res) => {
 /**
  * GET * – Catch-all route that serves the React client's index.html for
  * client-side routing to work correctly in production builds.
+ * The generalLimiter protects against excessive filesystem reads.
  */
-app.get('*', (req, res) => {
+app.get('*', generalLimiter, (req, res) => {
     res.sendFile(path.join(__dirname, 'client/build/index.html'));
 });
 
